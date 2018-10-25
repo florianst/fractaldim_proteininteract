@@ -1,4 +1,8 @@
+# Python
+__pycache__
 
-biograd-organism/
+# Data
+biograd-organism
 
-\.DS_Store
+# macOS
+.DS_Store
