@@ -14,10 +14,7 @@ def build_path_graph(n):
 
     G = nx.Graph()
 
-    G.add_nodes_from([i for i in range(n)])
-
-    for i in range(n-1):
-        G.add_edge(i, i+1)
+    G.add_edges_from([(i,i+1) for i in range(n - 1)])
 
     return G
 
@@ -55,5 +52,5 @@ def test_topological_fractal_dimension():
 if __name__ == "__main__":
         G = build_path_graph(10)
         plt.figure()
-        nx.draw(G, with_labels=True, font_weight='bold')
+        nx.draw(G, with_labels=True)
         plt.show()
