@@ -54,6 +54,16 @@ def build_lattice_graph(n):
 
     return G
 
+def test_build_lattice_graph(n = 5):
+
+    with pytest.raises(ValueError):
+        G = build_lattice_graph(1)
+
+    G = build_lattice_graph(n)
+
+    assert G.number_of_nodes() == n * n
+    assert G.number_of_edges() == 2 * n**2 - 2 * n
+
 def test_topological_fractal_dimension():
     tfd = lambda G: TFD.topological_fractal_dimension(G)
 
