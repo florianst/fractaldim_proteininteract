@@ -21,6 +21,18 @@ def build_path_graph(n):
 
     return G
 
+def test_build_path_graph():
+
+    with pytest.raises(ValueError):
+        G = build_path_graph(1)
+
+    nodes = 10
+
+    G = build_path_graph(nodes)
+
+    assert G.number_of_nodes() == nodes
+    assert G.number_of_edges() == nodes - 1
+
 def lattice_graph(n):
     pass
 
