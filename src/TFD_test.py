@@ -30,7 +30,7 @@ def test_build_path_graph(n = 10):
 
 def build_lattice_graph(n):
     """
-    Build lattice graph with n*n nodes
+    Build lattice graph with n*n nodes.
     """
 
     if n < 2:
@@ -40,12 +40,14 @@ def build_lattice_graph(n):
 
     G.add_nodes_from([i for i in range(n * n)])
 
+    # Add edges in the same raw
     for i in range(n):
         for j in range(n - 1):
             idx = i * n + j
 
             G.add_edge(idx, idx + 1)
 
+    # Add edges bettween different raws
     for i in range(n - 1):
         for j in range(n):
             idx = i * n + j
