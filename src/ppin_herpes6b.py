@@ -15,7 +15,7 @@ colOffB_name = 'Official Symbol Interactor B'
 
 
 # draw graph
-interactorA     = [val for sublist in df_herpes[[colA_name]].values for val in sublist] # flatten the list like this
+interactorA     = [val for sublist in df_herpes[[colA_name]].values for val in sublist] # flatten the lists like this
 officialSymbolA = [val for sublist in df_herpes[[colOffA_name]].values for val in sublist]
 interactorB     = [val for sublist in df_herpes[[colB_name]].values for val in sublist]
 officialSymbolB = [val for sublist in df_herpes[[colOffB_name]].values for val in sublist]
@@ -23,5 +23,7 @@ officialSymbolB = [val for sublist in df_herpes[[colOffB_name]].values for val i
 plt.figure(figsize=(10,8))
 graph = nx.from_pandas_edgelist(df_herpes[[colA_name,colB_name]], colA_name, colB_name) # need to give a directionality here - just ignore
 graph = nx.relabel_nodes(graph, dict(zip(interactorA+interactorB, officialSymbolA+officialSymbolB)))
-nx.draw_networkx(graph)
+pos = nx.kamada_kawai_layout(graph)
+nx.draw(graph, pos)
+nx.draw_networkx_labels(graph, pos)
 plt.show()
