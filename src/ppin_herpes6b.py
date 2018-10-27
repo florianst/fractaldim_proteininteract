@@ -20,7 +20,7 @@ officialSymbolB = [val for sublist in df_herpes[[colOffB_name]].values for val i
 
 dict_symbols = dict(zip(interactorA+interactorB, officialSymbolA+officialSymbolB))
 df_symbols = pd.DataFrame.from_dict(dict_symbols, orient='index')
-df_symbols.to_csv("../biograd-organism/ppin/"+filename+".proteinSymbols")
+df_symbols.to_csv("../biograd-organism/ppin/"+filename+".proteinSymbols", sep='\t')
 
 
 # draw graph
