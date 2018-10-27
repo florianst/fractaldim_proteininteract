@@ -1,11 +1,12 @@
+import sys
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 
 # import BioGrid file
-filename    = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt" # BIOGRID-ORGANISM-Human_Herpesvirus_8-3.5.165.tab2.txt
-# TODO: make this a parameter of the file
+filename =  sys.argv[1] if (len(sys.argv) > 1) else "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"
 df_herpes   = pd.read_csv("../biograd-organism/"+filename, sep='\t', header=(0))
+
 colA_name   = 'BioGRID ID Interactor A'
 colB_name   = 'BioGRID ID Interactor B'
 colOffA_name = 'Official Symbol Interactor A'
