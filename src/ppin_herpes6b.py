@@ -3,25 +3,28 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 # import BioGrid file
-filename    = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2.txt" # BIOGRID-ORGANISM-Human_Herpesvirus_8-3.5.165.tab2.txt
+filename    = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt" # BIOGRID-ORGANISM-Human_Herpesvirus_8-3.5.165.tab2.txt
+# TODO: make this a parameter of the file
 df_herpes   = pd.read_csv("../biograd-organism/"+filename, sep='\t', header=(0))
 colA_name   = 'BioGRID ID Interactor A'
 colB_name   = 'BioGRID ID Interactor B'
 colOffA_name = 'Official Symbol Interactor A'
 colOffB_name = 'Official Symbol Interactor B'
 
-# TODO: save edgelist file, save official symbols file
+# save edgelist file, save official symbols file
+# first, delete duplicates across columns in the same line (self-loops)
+df_herpes = df_herpes[df_herpes[colA_name] != df_herpes[colB_name]]
+# then delete duplicates across rows
+df_herpes = df_herpes.drop_duplicates(subset=[colA_name, colB_name])
 df_herpes[[colA_name, colB_name]].to_csv("../biograd-organism/ppin/"+filename+".edgeList", sep='\t')
 
 interactorA     = [val for sublist in df_herpes[[colA_name]].values for val in sublist] # flatten the lists like this
 officialSymbolA = [val for sublist in df_herpes[[colOffA_name]].values for val in sublist]
 interactorB     = [val for sublist in df_herpes[[colB_name]].values for val in sublist]
 officialSymbolB = [val for sublist in df_herpes[[colOffB_name]].values for val in sublist]
-
 dict_symbols = dict(zip(interactorA+interactorB, officialSymbolA+officialSymbolB))
 df_symbols = pd.DataFrame.from_dict(dict_symbols, orient='index')
-df_symbols.to_csv("../biograd-organism/ppin/"+filename+".proteinSymbols", sep='\t')
-
+df_symbols.to_csv("../biograd-organism/ppin/"+filename+".proteinSymbols", sep='\t') # dictionary gets rid of duplicates automatically
 
 # draw graph
 plt.figure(figsize=(10,8))
