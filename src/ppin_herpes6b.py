@@ -19,6 +19,12 @@ df_herpes = df_herpes[df_herpes[colA_name] != df_herpes[colB_name]]
 df_herpes = df_herpes.drop_duplicates(subset=[colA_name, colB_name])
 df_herpes[[colA_name, colB_name]].to_csv("../biograd-organism/ppin/"+filename+".edgeList", sep='\t')
 
+"""
+# Define a function to flatten lists?
+def flatten(data, name):
+    return [val for sublist in data[[name]].values for val in sublist]
+"""
+
 interactorA     = [val for sublist in df_herpes[[colA_name]].values for val in sublist] # flatten the lists like this
 officialSymbolA = [val for sublist in df_herpes[[colOffA_name]].values for val in sublist]
 interactorB     = [val for sublist in df_herpes[[colB_name]].values for val in sublist]
