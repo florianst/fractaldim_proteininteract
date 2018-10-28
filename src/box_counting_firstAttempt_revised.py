@@ -32,11 +32,22 @@ def InitialPoint(graph):
 	return startingNode
 
 def adj_check(graph,startingpoint):
-	a = list(graph.adj[startingpoint])
+	a = [startingpoint] + list(graph.adj[startingpoint])
 	adjTOadj = []
 	for i in a:
 		adjTOadj.append(list(graph.adj[i]))
 	return list(set(adjTOadj[0]).intersection(*adjTOadj[:1]))
+	
+def remove_duplicates(values):
+    output = []
+    seen = set()
+    for value in values:
+        # If value has not been encountered yet,
+        # ... add it to both list and set.
+        if value not in seen:
+            output.append(value)
+            seen.add(value)
+    return output	
 	
 box_count = 0
 while(len(H.nodes)>1):
@@ -47,6 +58,7 @@ while(len(H.nodes)>1):
 	#***are not connected to each other.
 	true_adj = adj_check(H,Start)
 	group = [Start] + true_adj
+	group = remove_duplicates(group)
 	box_count += 1
 	save_connections = []
 	#find all adjacent nodes to the adjacent starter node (Start)
@@ -65,6 +77,8 @@ while(len(H.nodes)>1):
 	#put the connections (edges) back to the outside
 	for i in relevant_nodes:
 		H.add_edge(i, group[0])
+	print ("RELEVANT NODES")
+	print (relevant_nodes)
 	print("BOX COUNT:")
 	print (box_count)
 	print("START POINT:")
