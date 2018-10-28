@@ -30,12 +30,23 @@ def InitialPoint(graph):
 	#	minList.append(len(allneighbors[x]))
 	#startingNode = searchlist.index(min(minList))
 	return startingNode
+
+def adj_check(graph,startingpoint):
+	a = list(graph.adj[startingpoint])
+	adjTOadj = []
+	for i in a:
+		adjTOadj.append(list(graph.adj[i]))
+	return list(set(adjTOadj[0]).intersection(*adjTOadj[:1]))
 	
 box_count = 0
 while(len(H.nodes)>1):
 	Start = InitialPoint(H)
 	#all the nodes in 1 box -- this is a box of length 2 because it only looks at the immediate adjacent nodes
-	group = [Start] + list(H.adj[Start])
+	#***CORRECTION: The argument above is only true for path_graphs (i.e. when a node has only 1 neighbor)
+	#***this condition is obviously violated in the case of a node that is connected to two neighboring nodes which
+	#***are not connected to each other.
+	true_adj = adj_check(H,Start)
+	group = [Start] + true_adj
 	box_count += 1
 	save_connections = []
 	#find all adjacent nodes to the adjacent starter node (Start)
