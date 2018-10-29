@@ -40,14 +40,14 @@ def build_lattice_graph(n):
 
     G.add_nodes_from([i for i in range(n * n)])
 
-    # Add edges in the same raw
+    # Add edges in the same row
     for i in range(n):
         for j in range(n - 1):
             idx = i * n + j
 
             G.add_edge(idx, idx + 1)
 
-    # Add edges bettween different raws
+    # Add edges bettween different rows
     for i in range(n - 1):
         for j in range(n):
             idx = i * n + j
