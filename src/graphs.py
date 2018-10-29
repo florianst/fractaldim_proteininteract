@@ -1,3 +1,7 @@
+import networkx as nx
+
+import pytest
+
 def build_path_graph(n):
     """
     Build path graph of length n.
@@ -37,5 +41,11 @@ def build_lattice_graph(n):
             idx = i * n + j
 
             G.add_edge(idx, idx + n)
+
+    return G
+
+def build_song2007_graph():
+    G = nx.Graph()
+    G.add_edges_from([(0,1), (0,2), (1,2), (2,3), (3,4), (4,5)])
 
     return G

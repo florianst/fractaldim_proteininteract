@@ -1,5 +1,7 @@
 import TFD
 
+import graphs
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import pytest
@@ -7,11 +9,11 @@ import pytest
 def test_topological_fractal_dimension():
     tfd = lambda G: TFD.topological_fractal_dimension(G)
 
-    PathGraph = build_path_graph(10)
+    PathGraph = graphs.build_path_graph(10)
 
     #assert tfd(PathGraph) == pytest.approx(1)
 
-    LatticeGraph = None
+    LatticeGraph = graphs.build_lattice_graph(10)
 
     #assert tfd(LatticeGraph) == pytest.approx(2)
 

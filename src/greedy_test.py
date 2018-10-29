@@ -1,12 +1,7 @@
 import greedy
+import graphs
 
 import networkx as nx
-
-def build_song2007_graph():
-    G = nx.Graph()
-    G.add_edges_from([(0,1), (0,2), (1,2), (2,3), (3,4), (4,5)])
-
-    return G
 
 
 def test_dual_graph_path():
@@ -16,7 +11,7 @@ def test_dual_graph_lattice():
     pass
 
 def test_dual_graph_song2007():
-    G = build_song2007_graph()
+    G = graphs.build_song2007_graph()
 
     assert G.number_of_nodes() == 6
     assert G.number_of_edges() == 6
@@ -34,12 +29,15 @@ def test_dual_graph_song2007():
 
 def test_number_of_boxes_path():
 
-    for n in range(10):
+    for n in range(2,10):
+        G = graphs.build_path_graph(n)
+
+        #assert number_of_boxes(G, 1) == n
+        #assert number_of_boxes(G, n) == 1
 
 
 
 if __name__ == "__main__":
-
     import TDF
 
     import matplotlib.pyplot as plt
