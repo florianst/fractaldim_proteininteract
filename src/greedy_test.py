@@ -32,6 +32,11 @@ def test_dual_graph_song2007():
     assert dG.has_edge(1, 5)
     assert dG.has_edge(2, 5)
 
+def test_number_of_boxes_path():
+
+    for n in range(10):
+
+
 
 if __name__ == "__main__":
 
