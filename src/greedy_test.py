@@ -2,6 +2,7 @@ import greedy
 import graphs
 
 import networkx as nx
+import pytest
 
 
 def test_dual_graph_path():
