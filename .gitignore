@@ -7,3 +7,6 @@ biograd-organism/ppin/huge
 
 # macOS
 .DS_Store
+
+# IDEs
+.idea

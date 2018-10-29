@@ -83,12 +83,19 @@ def test_topological_fractal_dimension():
     # assert tdf(ErdosRenyiGraph) ==
 
 if __name__ == "__main__":
-        G = build_path_graph(5)
-        plt.figure()
-        nx.draw(G, with_labels=True)
-        plt.show()
+        import greedy
+        import matplotlib.pyplot as plt
+        import numpy as np
 
-        G = build_lattice_graph(3)
-        plt.figure()
-        nx.draw(G, with_labels=True)
+        G = build_path_graph(100)
+
+        Nb = []
+        lb = np.linspace(20,30,5)
+        for l in lb:
+            Nb.append( greedy.number_of_boxes(G, l) )
+
+        tfd = np.polyfit(lb, np.log(Nb), 1)[1]
+        print("TDF:", tfd)
+
+        plt.semilogy(lb, Nb, 'o')
         plt.show()

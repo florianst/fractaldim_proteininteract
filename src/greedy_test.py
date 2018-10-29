@@ -9,10 +9,28 @@ def build_song2007_graph():
     return G
 
 
-def test_dual_graph():
+def test_dual_graph_path():
+    pass
 
-    box_length = 3
-    dG = dual_graph(G, box_length)
+def test_dual_graph_lattice():
+    pass
+
+def test_dual_graph_song2007():
+    G = build_song2007_graph()
+
+    assert G.number_of_nodes() == 6
+    assert G.number_of_edges() == 6
+
+    dG = greedy.dual_graph(G, 3)
+
+    assert dG.number_of_nodes() == 6
+    assert dG.number_of_edges() == 5
+
+    assert dG.has_edge(0, 4)
+    assert dG.has_edge(0, 5)
+    assert dG.has_edge(1, 4)
+    assert dG.has_edge(1, 5)
+    assert dG.has_edge(2, 5)
 
 
 if __name__ == "__main__":
