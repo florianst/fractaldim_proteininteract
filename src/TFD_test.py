@@ -24,18 +24,14 @@ def test_topological_fractal_dimension():
 
 if __name__ == "__main__":
         import greedy
+        import graphs
+        import TDF
+
         import matplotlib.pyplot as plt
         import numpy as np
 
-        G = build_path_graph(100)
+        G = graphs.build_path_graph(500)
+        print("TDF Path:", TDF.topological_fractal_dimension(G, 2, 15))
 
-        Nb = []
-        lb = np.linspace(20,30,5)
-        for l in lb:
-            Nb.append( greedy.number_of_boxes(G, l) )
-
-        tfd = np.polyfit(lb, np.log(Nb), 1)[1]
-        print("TDF:", tfd)
-
-        plt.semilogy(lb, Nb, 'o')
-        plt.show()
+        G = graphs.build_lattice_graph(500)
+        print("TDF Lattice:", TDF.topological_fractal_dimension(G, 2, 15))
