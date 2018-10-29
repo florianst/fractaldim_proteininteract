@@ -30,11 +30,22 @@ def test_dual_graph_song2007():
 
 def test_number_of_boxes_path():
 
-    for n in range(2,10):
+    for n in range(10,30):
         G = graphs.build_path_graph(n)
 
+        # Test lb = 1
         assert greedy.number_of_boxes(G, 1) == n
+
+        # Test lb = 2
+        if n % 2 == 0:
+            assert greedy.number_of_boxes(G, 2) == n / 2
+        else:
+            assert greedy.number_of_boxes(G, 2) == (n - 1) / 2 + 1
+
+        # Test lb = n
         assert greedy.number_of_boxes(G, n) == 1
+
+        # Test lb > n
         assert greedy.number_of_boxes(G, n + 1) == 1
 
 def test_number_of_boxes_lattice():
@@ -42,8 +53,13 @@ def test_number_of_boxes_lattice():
     for n in range(2,10):
         G = graphs.build_lattice_graph(n)
 
+        # Test lb = 1
         assert greedy.number_of_boxes(G, 1) == n * n
+
+        # Test lb = n * n
         assert greedy.number_of_boxes(G, n * n) == 1
+
+        # Test lb > n * n
         assert greedy.number_of_boxes(G, n * n + 1) == 1
 
 if __name__ == "__main__":

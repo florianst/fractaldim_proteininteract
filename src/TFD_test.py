@@ -25,13 +25,13 @@ def test_topological_fractal_dimension():
 if __name__ == "__main__":
         import greedy
         import graphs
-        import TDF
+        import TFD
 
         import matplotlib.pyplot as plt
         import numpy as np
 
         G = graphs.build_path_graph(500)
-        print("TDF Path:", TDF.topological_fractal_dimension(G, 2, 15))
+        print("TDF Path:", TFD.topological_fractal_dimension(G, 2, 15))
 
-        G = graphs.build_lattice_graph(500)
-        print("TDF Lattice:", TDF.topological_fractal_dimension(G, 2, 15))
+        G = graphs.build_lattice_graph(25)
+        print("TDF Lattice:", TFD.topological_fractal_dimension(G, 2, 10))
