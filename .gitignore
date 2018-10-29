@@ -3,6 +3,7 @@ __pycache__
 
 # Data
 biograd-organism/huge
+biograd-organism/ppin/huge
 
 # macOS
 .DS_Store
