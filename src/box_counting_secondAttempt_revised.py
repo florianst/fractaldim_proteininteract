@@ -13,15 +13,39 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 numNodes=8
-BOX_SIZE = 2
+BOX_SIZE = 8
 BOX_SIZE -= 1
 #G = nx.path_graph(numNodes)
 #H=G.copy()
-nodes, edges = 6, 12
-ErdosRenyiGraph = nx.gnm_random_graph(nodes, edges)
-H=ErdosRenyiGraph.copy()
-nx.draw(H, with_labels=True)
-plt.show()
+#nodes, edges = 12, 35
+#ErdosRenyiGraph = nx.gnm_random_graph(nodes, edges)
+#H=ErdosRenyiGraph.copy()
+
+def build_lattice_graph(n):
+    """
+    Build lattice graph with n*n nodes
+    """
+
+    if n < 2:
+        raise ValueError
+
+    G = nx.Graph()
+
+    G.add_nodes_from([i for i in range(n * n)])
+
+    for i in range(n):
+        for j in range(n - 1):
+            idx = i * n + j
+
+            G.add_edge(idx, idx + 1)
+
+    for i in range(n - 1):
+        for j in range(n):
+            idx = i * n + j
+
+            G.add_edge(idx, idx + n)
+    return G
+
 
 def InitialPoint(graph):
 	allneighbors = []
@@ -50,14 +74,48 @@ def remove_duplicates(values):
             output.append(value)
             seen.add(value)
     return output	
+
 	
-def findPaths(G,u,n):
-    if n==0:
-        return [[u]]
-    paths = [[u]+path for neighbor in G.neighbors(u) for path in findPaths(G,neighbor,n-1) if u not in path]
-    return paths
+	#checkList=[]
+	#for i in range(1,n+1):
+	#	checkList.append([[u]+path for neighbor in G.neighbors(u) for path in findPaths(G,neighbor,n-1) if u not in path])
+    #checkList = [item for sublist in checkList for item in sublist]
 	
-	
+def findPaths(G,u,n): 
+    if n==0: 
+        return [[u]] 
+    paths = [[u]+path for neighbor in G.neighbors(u) for path in findPaths(G,neighbor,n-1) if u not in path] 
+    return paths 
+		
+def shortestPath(G,u,n,paths):
+	check = 0
+	for i in paths:
+		temp = list(nx.all_shortest_paths(G,source=i[0],target=i[-1]))
+		print (i)
+		print (temp)
+		print("-----------")
+		if i in temp:
+			check += 1
+			shortestPath = i
+			print(i)
+			return shortestPath
+			break
+	if check==0:
+		return ("CHANGE BOX SIZE")
+
+def isCompact(graph,diameter,box_length):
+	temp_diameter = diameter.copy()
+	for i in diameter[:-1]:
+		for j in diameter[i:]:
+			if nx.shortest_path_length(graph,i,j) > box_length:
+				print("BOX IS NOT COMPACT")
+				print(j)
+				temp_diameter.remove(j)
+	return temp_diameter
+		
+H=build_lattice_graph(10)
+nx.draw(H, with_labels=True)
+plt.show()
 box_count = 0
 while(len(H.nodes)>1):
 	Start = InitialPoint(H)
