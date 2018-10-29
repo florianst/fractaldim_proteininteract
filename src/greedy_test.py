@@ -35,6 +35,7 @@ def test_number_of_boxes_path():
 
         assert greedy.number_of_boxes(G, 1) == n
         assert greedy.number_of_boxes(G, n) == 1
+        assert greedy.number_of_boxes(G, n + 1) == 1
 
 def test_number_of_boxes_lattice():
 
@@ -43,6 +44,7 @@ def test_number_of_boxes_lattice():
 
         assert greedy.number_of_boxes(G, 1) == n * n
         assert greedy.number_of_boxes(G, n * n) == 1
+        assert greedy.number_of_boxes(G, n * n + 1) == 1
 
 if __name__ == "__main__":
     import TDF
