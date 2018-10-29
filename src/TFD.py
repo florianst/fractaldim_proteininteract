@@ -16,4 +16,4 @@ def topological_fractal_dimension(graph, lb_min, lb_max, lb_step = 1, method = "
     else:
         pass
 
-    return -np.polyfit(np.log(lb), np.log(Nb), 1)[0]
+    return -np.polyfit(np.log(lb), np.log(Nb), 1)[0], lb, np.array(Nb)
