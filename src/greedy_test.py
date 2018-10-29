@@ -32,10 +32,16 @@ def test_number_of_boxes_path():
     for n in range(2,10):
         G = graphs.build_path_graph(n)
 
-        #assert number_of_boxes(G, 1) == n
-        #assert number_of_boxes(G, n) == 1
+        assert greedy.number_of_boxes(G, 1) == n
+        assert greedy.number_of_boxes(G, n) == 1
 
+def test_number_of_boxes_lattice():
 
+    for n in range(2,10):
+        G = graphs.build_lattice_graph(n)
+
+        assert greedy.number_of_boxes(G, 1) == n * n
+        assert greedy.number_of_boxes(G, n * n) == 1
 
 if __name__ == "__main__":
     import TDF
