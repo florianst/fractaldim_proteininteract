@@ -30,6 +30,11 @@ def parse_fname(default_fname = None, args = None):
 
     return fname
 
+print("number of nodes: in graph "+str(graph.number_of_nodes())+", in dataframe "+str(len(dict_symbols)))
+print("number of edges: in graph "+str(graph.number_of_edges())+", in dataframe "+str(len(df_ppin)))
+print("number of connected components: "+str(nx.number_connected_components(graph)))
+graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
+print("largest connected component: "+str(graph_maxconnected.number_of_nodes())+" nodes, "+str(graph_maxconnected.number_of_edges())+" edges")
 def load_ppin(fname, folder = "../biograd-organism/"):
     """
     Load PPIN data from FNAME in folder FOLDER as CSV file.
@@ -37,13 +42,36 @@ def load_ppin(fname, folder = "../biograd-organism/"):
 
     return pd.read_csv(folder + fname, sep='\t', header=(0), dtype=str)
 
+do_centrality = True
+if (do_centrality):
+    k=4000
+    betweenness_dict = nx.betweenness_centrality(graph, k=min(k, graph.number_of_nodes()))  # betweenness centrality (slow - only consider a random sample of k nodes)
+    eigenvector_dict = nx.eigenvector_centrality(graph)  # eigenvector centrality
+    pagerank_dict   = nx.pagerank(graph)  # pagerank centrality
 def save_ppin(data, fname, folder = "../biograd-organism/"):
     """
     """
 
+    # assign each to an attribute in every node
+    nx.set_node_attributes(graph, betweenness_dict, 'betweenness')
+    nx.set_node_attributes(graph, eigenvector_dict, 'eigenvector')
+    nx.set_node_attributes(graph, pagerank_dict, 'pagerank')
+    sorted_betweenness = sorted(betweenness_dict.items(), key=itemgetter(1), reverse=True)
+    sorted_eigenvector = sorted(eigenvector_dict.items(), key=itemgetter(1), reverse=True)
+    sorted_pagerank   = sorted(pagerank_dict.items(), key=itemgetter(1), reverse=True)
     data.to_csv(folder + fname, sep='\t')
 
+    # normalise all centralities to one for comparison
+    max_eigenvector = sorted_eigenvector[0][1]
+    max_betweenness = sorted_betweenness[0][1]
+    max_pagerank    = sorted_pagerank[0][1]
 
+    plotNames = list(set([i[0] for i in sorted_betweenness[:5]]+[i[0] for i in sorted_eigenvector[:5]]+[i[0] for i in sorted_pagerank[:5]]))
+
+    df_plot = pd.DataFrame({'betweenness'+(" (k="+str(k)+")" if k<graph.number_of_nodes() else ""): [betweenness_dict[i]/max_betweenness for i in plotNames], 'eigenvector': [eigenvector_dict[i]/max_eigenvector for i in plotNames], 'pagerank': [pagerank_dict[i]/max_pagerank for i in plotNames]}, index=plotNames)
+    ax = df_plot.plot.bar(rot=0)
+    plt.title(filename+"\n "+str(graph.number_of_nodes())+" nodes, "+str(graph.number_of_edges())+" edges, "+str(nx.number_connected_components(graph))+" connected components")
+    plt.savefig("../biograd-organism/ppin/"+filename+".Centrality.pdf")
 def flatten(data, name):
     """
     """
