@@ -62,3 +62,10 @@ def test_number_of_boxes_lattice():
 
         # Test lb > n * n
         assert greedy.number_of_boxes(G, n * n + 1) == 1
+
+
+def test_number_of_boxes_song2007():
+
+    G = graphs.build_song2007_graph()
+
+    assert greedy.number_of_boxes(G, 3) == 2
