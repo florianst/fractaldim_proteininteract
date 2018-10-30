@@ -1,7 +1,8 @@
 numpy >= 1.15
-pandas >= 0.23
+pandas >= 0.22
 matplotlib >= 3.0
 networkx >= 2.2
+argparse
 pytest >= 3.9
 pytest-cov >= 2.6
 codecov
