@@ -63,8 +63,6 @@ def test_number_of_boxes_lattice():
         assert greedy.number_of_boxes(G, n * n + 1) == 1
 
 if __name__ == "__main__":
-    import TDF
-
     import matplotlib.pyplot as plt
 
     G = build_song2007_graph()
