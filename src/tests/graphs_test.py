@@ -1,4 +1,4 @@
-import graphs
+from .. import graphs
 
 import pytest
 

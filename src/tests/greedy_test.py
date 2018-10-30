@@ -1,5 +1,5 @@
-import greedy
-import graphs
+from .. import greedy
+from .. import graphs
 
 import networkx as nx
 import pytest

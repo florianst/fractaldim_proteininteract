@@ -1,6 +1,5 @@
-import TFD
-
-import graphs
+from .. import TFD
+from .. import graphs
 
 import matplotlib.pyplot as plt
 import networkx as nx

@@ -1,4 +1,4 @@
-import greedy
+from . import greedy
 
 import networkx as nx
 import numpy as np
