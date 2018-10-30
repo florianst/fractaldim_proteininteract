@@ -11,3 +11,9 @@ biograd-organism/ppin/huge
 # IDEs/Vim
 .idea
 *~
+
+# LaTeX
+*.aux
+*.out
+*.gz
+*.log
