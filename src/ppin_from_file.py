@@ -50,6 +50,9 @@ def print_graphinfo(graph):
     graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
     print("largest connected component: " + str(graph_maxconnected.number_of_nodes()) + " nodes, " + str(graph_maxconnected.number_of_edges()) + " edges")
 
+def build_graph_from_ppin_file(fname):
+    pass
+
 
 if __name__ == "__main__":
 
