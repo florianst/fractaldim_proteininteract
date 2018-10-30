@@ -61,16 +61,3 @@ def test_number_of_boxes_lattice():
 
         # Test lb > n * n
         assert greedy.number_of_boxes(G, n * n + 1) == 1
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    G = build_song2007_graph()
-    plt.figure(1)
-    nx.draw(G, with_labels = True)
-    plt.show(block=False)
-
-    dG = greedy.dual_graph(G, 3)
-    plt.figure(2)
-    nx.draw(dG, with_labels = True)
-    plt.show()
