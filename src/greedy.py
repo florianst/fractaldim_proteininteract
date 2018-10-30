@@ -14,7 +14,7 @@ def dual_graph(graph, box_length):
     BOX_LENGTH.
     """
 
-    logger.info("Dual graph computation...")
+    logger.info("START dual_graph ...")
     ti = time.process_time()
 
     paths = nx.shortest_path(graph)
@@ -31,7 +31,7 @@ def dual_graph(graph, box_length):
                 dual.add_edge(i,j)
 
     tf = time.process_time()
-    logger.info("   ... " + "{:.5f}".format(tf - ti) + "s")
+    logger.info("END dual_graph (" + "{:.5f}".format(tf - ti) + "s)")
 
     return dual
 
@@ -42,7 +42,7 @@ def number_of_boxes(graph, box_length):
     of length BOX_LENGTH.
     """
 
-    logger.info("Counting number of boxes (coloring)...")
+    logger.info("START number_of_boxes ...")
     ti = time.process_time()
 
     dG = dual_graph(graph, box_length)
@@ -52,7 +52,7 @@ def number_of_boxes(graph, box_length):
     num_boxes = max(colors.values()) + 1
 
     tf = time.process_time()
-    logger.info("   ... " + "{:.5f}".format(tf - ti) + "s")
+    logger.info("END number_of_boxes (" + "{:.5f}".format(tf - ti) + "s)")
 
     return num_boxes
 
