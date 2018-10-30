@@ -1,8 +1,9 @@
-from .. import graphs
+import graphs
 
 import pytest
 
-def test_build_path_graph(n = 10):
+
+def test_build_path_graph(n=10):
 
     with pytest.raises(ValueError):
         G = graphs.build_path_graph(1)
@@ -14,7 +15,7 @@ def test_build_path_graph(n = 10):
         assert G.number_of_edges() == i - 1
 
 
-def test_build_lattice_graph(n = 5):
+def test_build_lattice_graph(n=5):
 
     with pytest.raises(ValueError):
         G = graphs.build_lattice_graph(1)

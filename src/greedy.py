@@ -28,7 +28,7 @@ def dual_graph(graph, box_length):
             path_ij_length = len(paths[i][j]) - 1
 
             if path_ij_length >= box_length:
-                dual.add_edge(i,j)
+                dual.add_edge(i, j)
 
     tf = time.process_time()
     logger.info("END dual_graph (" + "{:.5f}".format(tf - ti) + "s)")
@@ -56,6 +56,7 @@ def number_of_boxes(graph, box_length):
 
     return num_boxes
 
+
 if __name__ == "__main__":
     import graphs
 
@@ -63,10 +64,10 @@ if __name__ == "__main__":
 
     G = graphs.build_song2007_graph()
     plt.figure(1)
-    nx.draw(G, with_labels = True)
+    nx.draw(G, with_labels=True)
     plt.show(block=False)
 
-    dG = greedy.dual_graph(G, 3)
+    dG = dual_graph(G, 3)
     plt.figure(2)
-    nx.draw(dG, with_labels = True)
+    nx.draw(dG, with_labels=True)
     plt.show()

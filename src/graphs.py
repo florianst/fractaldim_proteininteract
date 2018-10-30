@@ -2,6 +2,7 @@ import networkx as nx
 
 import pytest
 
+
 def build_path_graph(n):
     """
     Build path graph of length n.
@@ -12,9 +13,10 @@ def build_path_graph(n):
 
     G = nx.Graph()
 
-    G.add_edges_from([(i,i+1) for i in range(n - 1)])
+    G.add_edges_from([(i, i+1) for i in range(n - 1)])
 
     return G
+
 
 def build_lattice_graph(n):
     """
@@ -44,25 +46,27 @@ def build_lattice_graph(n):
 
     return G
 
+
 def build_song2007_graph():
     G = nx.Graph()
-    G.add_edges_from([(0,1), (0,2), (1,2), (2,3), (3,4), (4,5)])
+    G.add_edges_from([(0, 1), (0, 2), (1, 2), (2, 3), (3, 4), (4, 5)])
 
     return G
+
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    plt.subplot(1,3,1)
+    plt.subplot(1, 3, 1)
     G = build_path_graph(10)
     nx.draw(G, with_labels=True)
 
-    plt.subplot(1,3,2)
+    plt.subplot(1, 3, 2)
     G = build_lattice_graph(4)
     nx.draw(G, with_labels=True)
 
-    plt.subplot(1,3,3)
-    G = nx.gnm_random_graph(10,5)
+    plt.subplot(1, 3, 3)
+    G = nx.gnm_random_graph(10, 5)
     nx.draw(G, with_labels=True)
 
     plt.show()

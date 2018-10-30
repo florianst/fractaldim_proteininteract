@@ -1,15 +1,14 @@
-from .. import greedy
-from .. import graphs
-
-import networkx as nx
-import pytest
+import greedy
+import graphs
 
 
 def test_dual_graph_path():
     pass
 
+
 def test_dual_graph_lattice():
     pass
+
 
 def test_dual_graph_song2007():
     G = graphs.build_song2007_graph()
@@ -28,9 +27,10 @@ def test_dual_graph_song2007():
     assert dG.has_edge(1, 5)
     assert dG.has_edge(2, 5)
 
+
 def test_number_of_boxes_path():
 
-    for n in range(10,30):
+    for n in range(10, 30):
         G = graphs.build_path_graph(n)
 
         # Test lb = 1
@@ -48,9 +48,10 @@ def test_number_of_boxes_path():
         # Test lb > n
         assert greedy.number_of_boxes(G, n + 1) == 1
 
+
 def test_number_of_boxes_lattice():
 
-    for n in range(2,10):
+    for n in range(2, 10):
         G = graphs.build_lattice_graph(n)
 
         # Test lb = 1

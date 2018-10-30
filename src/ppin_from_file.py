@@ -104,6 +104,7 @@ if __name__ == "__main__":
         eigenvector_dict = nx.eigenvector_centrality(graph)  # eigenvector centrality
         pagerank_dict    = nx.pagerank(graph)  # pagerank centrality
 
+
         # assign each to an attribute in every node
         nx.set_node_attributes(graph, betweenness_dict, 'betweenness')
         nx.set_node_attributes(graph, eigenvector_dict, 'eigenvector')
