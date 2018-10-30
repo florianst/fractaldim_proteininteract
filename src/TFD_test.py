@@ -37,7 +37,7 @@ if __name__ == "__main__":
         plt.subplot(1,2,1)
         plt.loglog(lb, Nb, 'o')
 
-        G = graphs.build_lattice_graph(25)
+        G = graphs.build_lattice_graph(100)
         tdf, lb, Nb = TFD.topological_fractal_dimension(G, 2, 10)
         print("TDF Lattice:", tdf)
 
