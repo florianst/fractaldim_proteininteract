@@ -5,7 +5,6 @@ import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
-
 import argparse as ap
 
 # TODO:
@@ -19,8 +18,14 @@ def parse_fname(default_fname = None, args = None):
     parser = ap.ArgumentParser(description="")
 
     parser.add_argument("-i", type=str, default = default_fname)
+    parser.add_argument("-c", action='store_true', help='compute centrality parameters')
+    parser.add_argument("-d", action='store_true', help='draw the network graph')
 
     args = parser.parse_args(args)
+
+    global do_draw, do_centrality
+    do_centrality = args.c
+    do_draw       = args.d
 
     if args.i is not None:
         fname = args.i
@@ -47,8 +52,18 @@ def flatten(data, name):
     """
     return [val for sublist in data[[name]].values for val in sublist]
 
+def print_graphinfo(graph):
+    print("number of nodes: in graph " + str(graph.number_of_nodes()) + ", in dataframe " + str(len(dict_symbols)))
+    print("number of edges: in graph " + str(graph.number_of_edges()) + ", in dataframe " + str(len(df_ppin)))
+    print("number of connected components: " + str(nx.number_connected_components(graph)))
+    graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
+    print("largest connected component: " + str(graph_maxconnected.number_of_nodes()) + " nodes, " + str(graph_maxconnected.number_of_edges()) + " edges")
+
 
 if __name__ == "__main__":
+    do_centrality = False
+    do_draw = False
+
     default_fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"
     fname = parse_fname(default_fname)
 
@@ -61,9 +76,9 @@ if __name__ == "__main__":
     colOffA_name, colOffB_name = colOff_name + 'A', colOff_name + 'B'
 
     # save correspondence between biogrid ID and official symbol
-    interactorA = flatten(df_ppin, colA_name)
+    interactorA     = flatten(df_ppin, colA_name)
     officialSymbolA = flatten(df_ppin, colOffA_name)
-    interactorB = flatten(df_ppin, colB_name)
+    interactorB     = flatten(df_ppin, colB_name)
     officialSymbolB = flatten(df_ppin, colOffB_name)
 
     # dictionary gets rid of duplicates automatically
@@ -81,14 +96,9 @@ if __name__ == "__main__":
     nx.write_edgelist(graph, "../biograd-organism/ppin/"+ fname +".edgeList", delimiter='\t')
     graph = nx.relabel_nodes(graph, dict_symbols) # label the nodes with their official symbols, not with their biogrid IDs
 
-    print("number of nodes: in graph " + str(graph.number_of_nodes()) + ", in dataframe " + str(len(dict_symbols)))
-    print("number of edges: in graph " + str(graph.number_of_edges()) + ", in dataframe " + str(len(df_ppin)))
-    print("number of connected components: " + str(nx.number_connected_components(graph)))
-    graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
-    print("largest connected component: " + str(graph_maxconnected.number_of_nodes()) + " nodes, " + str(
-        graph_maxconnected.number_of_edges()) + " edges")
+    # print some info about the graph
+    print_graphinfo(graph)
 
-    do_draw = False
     if (do_draw):
         plt.figure(figsize=(10, 8))
         pos = nx.kamada_kawai_layout(graph)
@@ -96,7 +106,6 @@ if __name__ == "__main__":
         nx.draw_networkx_labels(graph, pos)
         plt.show()
 
-    do_centrality = True
     if (do_centrality):
         k=5000
         betweenness_dict = nx.betweenness_centrality(graph, k=min(k, graph.number_of_nodes()))  # betweenness centrality (slow - only consider a random sample of k nodes)
