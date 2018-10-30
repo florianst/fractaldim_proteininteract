@@ -10,29 +10,20 @@ import argparse as ap
 # TODO:
 # parallelize networkx centrality
 
-def parse_fname(default_fname = None, args = None):
+def parse(default_fname = None, args = None):
     """
     Parse filename.
     """
 
     parser = ap.ArgumentParser(description="")
 
-    parser.add_argument("-i", type=str, default = default_fname)
-    parser.add_argument("-c", action='store_true', help='compute centrality parameters')
-    parser.add_argument("-d", action='store_true', help='draw the network graph')
+    parser.add_argument("-i", type=str, default = default_fname, help = "Input file name")
+    parser.add_argument("-c", action='store_true', default = False, help="Compute centrality parameters.")
+    parser.add_argument("-d", action='store_true', default = False, help="Draw the network graph.")
 
     args = parser.parse_args(args)
 
-    global do_draw, do_centrality
-    do_centrality = args.c
-    do_draw       = args.d
-
-    if args.i is not None:
-        fname = args.i
-    else:
-        fname = default_fname
-
-    return fname
+    return args.i, args.c, args.d
 
 def load_ppin(fname, folder = "../biograd-organism/"):
     """
@@ -61,19 +52,17 @@ def print_graphinfo(graph):
 
 
 if __name__ == "__main__":
-    do_centrality = False
-    do_draw = False
 
     default_fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"
-    fname = parse_fname(default_fname)
+
+    fname, do_centrality, do_draw = parse(default_fname)
 
     starttime = time.time()
 
     df_ppin = load_ppin(fname)
 
-    col_name, colOff_name = "BioGRID ID Interactor ", "Official Symbol Interactor "
-    colA_name, colB_name = col_name + 'A', col_name + 'B'
-    colOffA_name, colOffB_name = colOff_name + 'A', colOff_name + 'B'
+    colA_name, colB_name =  "BioGRID ID Interactor A",  "BioGRID ID Interactor B"
+    colOffA_name, colOffB_name = "Official Symbol Interactor A", "Official Symbol Interactor B"
 
     # save correspondence between biogrid ID and official symbol
     interactorA     = flatten(df_ppin, colA_name)
@@ -134,5 +123,3 @@ if __name__ == "__main__":
 
     print("time elapsed: "+str(round(time.time()-starttime, 2))+"s")
     if (do_centrality): plt.show()
-
-
