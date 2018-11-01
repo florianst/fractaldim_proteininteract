@@ -44,7 +44,7 @@ def number_of_boxes_v2(graph, paths):
 
     for i in range(1, N):
         for lb in range(1, lb_max + 1):
-            used_colors = []
+            used_colors = [0]
 
             for j in range(i):
                 l_ij = len(paths[i][j]) - 1
@@ -55,11 +55,8 @@ def number_of_boxes_v2(graph, paths):
                     used_colors.append(C[j][l_ij])
                     #print(used_colors)
 
-            #print(used_colors)
-            if not used_colors:
-                new_color = 0
-            else:
-                new_color = max(used_colors) + 1
+
+            new_color = max(used_colors) + 1
 
             C[i][lb-1] = new_color
 
