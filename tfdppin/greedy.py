@@ -1,15 +1,18 @@
 import networkx as nx
 
-def dual_graph(graph, box_length):
+import time
+
+def dual_graph(graph, paths, box_length):
     """
     Construct the dual graph of GRAPH for a given BOX_LENGTH, where the nodes
     are connected if the sitance in the original graph is grether or equal than
     BOX_LENGTH.
     """
 
-    paths = nx.shortest_path(graph)
-
     n = graph.number_of_nodes()
+
+    ti = time.time()
+    print("build dual graph...", end=' ')
 
     dual = nx.Graph()
     dual.add_nodes_from(graph.nodes())
@@ -20,22 +23,31 @@ def dual_graph(graph, box_length):
             if path_ij_length >= box_length:
                 dual.add_edge(i, j)
 
+    print("{:.2f}".format(time.time() - ti))
+
     return dual
 
-
-def number_of_boxes(graph, box_length):
+def number_of_boxes(dual_graph):
     """
-    Determines the minimum number of boxes to cover the graph GRAPH with boxes
-    of length BOX_LENGTH.
+    Determines the minimum number of boxes to cover the graph DUAL_GRAPH.
     """
 
-    dG = dual_graph(graph, box_length)
-
-    colors = nx.coloring.greedy_color(dG)
+    ti = time.time()
+    print("greedy_color...", end=' ')
+    colors = nx.coloring.greedy_color(dual_graph)
+    print("{:.2f}".format(time.time() - ti))
 
     num_boxes = max(colors.values()) + 1
 
     return num_boxes
+
+def num_boxes_from_graph(graph, lb):
+
+    paths = nx.shortest_path(graph)
+
+    dual_graph = greedy.dual_graph(graph, paths, lb)
+
+    return number_of_boxes(dual_graph)
 
 
 if __name__ == "__main__":

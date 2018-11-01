@@ -9,3 +9,10 @@ Run
 pip install .
 ```
 from the root directory.
+
+### Developement
+For development use
+```
+python setup.py develop
+```
+instead.
