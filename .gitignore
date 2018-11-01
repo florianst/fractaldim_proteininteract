@@ -17,3 +17,7 @@ biograd-organism/ppin/huge
 *.out
 *.gz
 *.log
+
+tfdppin\.egg-info/
+
+tfdppin/data/
