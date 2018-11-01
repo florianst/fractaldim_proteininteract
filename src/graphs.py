@@ -57,15 +57,17 @@ def build_song2007_graph():
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    plt.subplot(1, 3, 1)
+    f = plt.figure(figsize=(10,5))
+
+    f.add_subplot(1, 3, 1)
     G = build_path_graph(10)
     nx.draw(G, with_labels=True)
 
-    plt.subplot(1, 3, 2)
+    f.add_subplot(1, 3, 2)
     G = build_lattice_graph(4)
     nx.draw(G, with_labels=True)
 
-    plt.subplot(1, 3, 3)
+    f.add_subplot(1, 3, 3)
     G = nx.gnm_random_graph(10, 5)
     nx.draw(G, with_labels=True)
 
