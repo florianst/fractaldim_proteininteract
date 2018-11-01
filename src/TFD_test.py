@@ -2,20 +2,17 @@ import TFD
 import graphs
 
 import networkx as nx
+import pytest
+
+def test_topological_fractal_dimension_path():
+    path_graph = graphs.build_path_graph(500)
+
+    assert TFD.topological_fractal_dimension(path_graph, 2, 15)[0] == pytest.approx(1, 1e-2)
 
 
-def test_topological_fractal_dimension():
-    tfd = lambda G: TFD.topological_fractal_dimension(G)
+def test_topological_fractal_dimension_lattice():
+    #lattice_graph = graphs.build_lattice_graph(20)
 
-    PathGraph = graphs.build_path_graph(10)
+    #assert TFD.topological_fractal_dimension(lattice_graph, 2, 15)[0] == pytest.approx(1, 1e-2)
 
-    # assert tfd(PathGraph) == pytest.approx(1)
-
-    LatticeGraph = graphs.build_lattice_graph(10)
-
-    # assert tfd(LatticeGraph) == pytest.approx(2)
-
-    nodes, edges = 10, 20
-    ErdosRenyiGraph = nx.gnm_random_graph(nodes, edges)
-
-    # assert tdf(ErdosRenyiGraph) ==
+    pass
