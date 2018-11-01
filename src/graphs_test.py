@@ -25,3 +25,11 @@ def test_build_lattice_graph(n=5):
 
         assert G.number_of_nodes() == i * i
         assert G.number_of_edges() == 2 * i**2 - 2 * i
+
+
+def test_build_song2007_graph():
+
+    G = graphs.build_song2007_graph()
+
+    assert G.number_of_nodes() == 6
+    assert G.number_of_edges() == 6
