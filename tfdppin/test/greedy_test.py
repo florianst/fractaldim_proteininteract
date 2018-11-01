@@ -63,9 +63,21 @@ def test_number_of_boxes_lattice():
         # Test lb > n * n
         assert greedy.number_of_boxes(G, n * n + 1) == 1
 
+def test_number_of_boxes_path_v2():
+
+    graph = graphs.build_song2007_graph()
+
+    paths = nx.shortest_path(graph)
+    greedy.number_of_boxes_v2(graph, paths)
+
 
 def test_number_of_boxes_song2007():
 
     G = graphs.build_song2007_graph()
 
     assert greedy.number_of_boxes(G, 3) == 2
+
+if __name__ == "__main__":
+    import networkx as nx
+
+    test_number_of_boxes_path_v2()

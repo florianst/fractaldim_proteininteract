@@ -1,5 +1,5 @@
 import networkx as nx
-
+import numpy as np
 import time
 
 def dual_graph(graph, paths, box_length):
@@ -26,6 +26,48 @@ def dual_graph(graph, paths, box_length):
     print("{:.2f}".format(time.time() - ti))
 
     return dual
+
+def graph_diameter(paths):
+     return max(list(map(lambda d : max(list(map(len, d.values()))), paths.values())))
+
+def number_of_boxes_v2(graph, paths):
+    N = graph.number_of_nodes()
+
+    lb_max = graph_diameter(paths)
+    print("lb_max =", lb_max)
+
+    C = -1 * np.ones((N, lb_max), dtype=int)
+
+    C[0][:] = 0
+
+    #print(C)
+
+    for i in range(1, N):
+        for lb in range(1, lb_max + 1):
+            used_colors = []
+
+            for j in range(i):
+                l_ij = len(paths[i][j]) - 1
+                #print("i =", i, "j =", j, "l_ij =", l_ij, "lb =", lb)
+
+                if l_ij >= lb:
+                    #print("l_ij =", l_ij, " ==", "lb =", lb)
+                    used_colors.append(C[j][l_ij])
+                    #print(used_colors)
+
+            #print(used_colors)
+            if not used_colors:
+                new_color = 0
+            else:
+                new_color = max(used_colors) + 1
+
+            C[i][lb-1] = new_color
+
+    Nb = np.amax(C, axis=0) + 1
+    print(Nb)
+
+    return np.array(range(1, lb_max + 1)), Nb
+
 
 def number_of_boxes(dual_graph):
     """

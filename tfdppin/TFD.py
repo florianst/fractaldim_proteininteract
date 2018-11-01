@@ -9,7 +9,7 @@ def topological_fractal_dimension(graph, lb_min, lb_max, lb_step=1, method="gree
     Nb = []
     lb = np.arange(lb_min, lb_max, lb_step)
 
-    if method == "greedy":
+    if method == "greedy_v2":
 
         ti = time.time()
         print("shortest_path...", end=' ')
@@ -33,18 +33,24 @@ if __name__ == "__main__":
         import matplotlib.pyplot as plt
         import os
 
-        f = plt.figure(figsize=(10,5))
+        f = plt.figure(figsize=(10, 5))
 
-        G = graphs.build_path_graph(500)
-        tdf, lb, Nb = topological_fractal_dimension(G, 2, 15)
-        print("TDF Path:", tdf)
+        G = graphs.build_path_graph(300)
+        #tdf, lb, Nb = topological_fractal_dimension(G, 2, 15)
+        paths = nx.shortest_path(G)
+        lb, Nb = greedy.number_of_boxes_v2(G, paths)
+        tfd = -np.polyfit(np.log(lb), np.log(Nb), 1)[0]
+        print("TDF Path:", tfd)
 
         f.add_subplot(1, 2, 1)
         plt.loglog(lb, Nb, 'o')
 
-        G = graphs.build_lattice_graph(50)
-        tdf, lb, Nb = topological_fractal_dimension(G, 2, 6)
-        print("TDF Lattice:", tdf)
+        G = graphs.build_lattice_graph(20)
+        #tdf, lb, Nb = topological_fractal_dimension(G, 2, 6)
+        paths = nx.shortest_path(G)
+        lb, Nb = greedy.number_of_boxes_v2(G, paths)
+        tfd = -np.polyfit(np.log(lb), np.log(Nb), 1)[0]
+        print("TDF Lattice:", tfd)
 
         f.add_subplot(1, 2, 2)
         plt.loglog(lb, Nb, 'o')
