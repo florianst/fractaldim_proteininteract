@@ -55,17 +55,21 @@ def build_graph_from_ppin_file(fname):
 
 
 if __name__ == "__main__":
-
     default_fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"
-
     fname, do_centrality, do_draw = parse(default_fname)
-
     starttime = time.time()
 
     df_ppin = load_ppin(fname)
 
     colA_name, colB_name =  "BioGRID ID Interactor A",  "BioGRID ID Interactor B"
     colOffA_name, colOffB_name = "Official Symbol Interactor A", "Official Symbol Interactor B"
+
+    # draw graph
+    graph = nx.from_pandas_edgelist(df_ppin[[colA_name,colB_name]], colA_name, colB_name) # need to give a directionality here - just ignore
+    graph.remove_edges_from(graph.selfloop_edges()) # gets rid of self loops (A->A)
+    graph = graph.to_undirected()                   # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
+    print("building graph took "+(time.time()-starttime)+" s")
+    nx.write_edgelist(graph, "../biograd-organism/ppin/"+ fname +".edgeList", delimiter='\t')
 
     # save correspondence between biogrid ID and official symbol
     interactorA     = flatten(df_ppin, colA_name)
@@ -74,18 +78,11 @@ if __name__ == "__main__":
     officialSymbolB = flatten(df_ppin, colOffB_name)
 
     # dictionary gets rid of duplicates automatically
-    dict_symbols = dict(zip(interactorA+interactorB, officialSymbolA+officialSymbolB))
-
+    dict_symbols = dict(zip(interactorA + interactorB, officialSymbolA + officialSymbolB))
     df_symbols = pd.DataFrame.from_dict(dict_symbols, orient='index')
 
     # TODO: Remove .txt from filename?
     save_ppin(df_symbols, fname + ".proteinSymbols", "../biograd-organism/ppin/")
-
-    # draw graph
-    graph = nx.from_pandas_edgelist(df_ppin[[colA_name,colB_name]], colA_name, colB_name) # need to give a directionality here - just ignore
-    graph.remove_edges_from(graph.selfloop_edges()) # gets rid of self loops (A->A)
-    graph = graph.to_undirected()                   # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
-    nx.write_edgelist(graph, "../biograd-organism/ppin/"+ fname +".edgeList", delimiter='\t')
     graph = nx.relabel_nodes(graph, dict_symbols) # label the nodes with their official symbols, not with their biogrid IDs
 
     # print some info about the graph
@@ -125,5 +122,5 @@ if __name__ == "__main__":
         plt.title(fname + "\n " + str(graph.number_of_nodes()) + " nodes, " + str(graph.number_of_edges()) + " edges, " + str(nx.number_connected_components(graph)) + " connected components")
         plt.savefig("../biograd-organism/ppin/" + fname + ".Centrality.pdf")
 
-    print("time elapsed: "+str(round(time.time()-starttime, 2))+"s")
+    print("time elapsed: "+str(round(time.time()-starttime, 2))+" s")
     if (do_centrality): plt.show()
