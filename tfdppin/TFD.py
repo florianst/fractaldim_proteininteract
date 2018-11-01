@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 64
+        N = 100
         G = graphs.build_path_graph(N)
         #tdf, lb, Nb = topological_fractal_dimension(G, 2, 15)
         paths = nx.shortest_path(G)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         x = np.linspace(min(np.log(lb)), max(np.log(lb)),100)
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
 
-        N = 10
+        N = 30
         G = graphs.build_lattice_graph(N)
         #tdf, lb, Nb = topological_fractal_dimension(G, 2, 6)
         paths = nx.shortest_path(G)

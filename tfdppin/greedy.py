@@ -65,6 +65,28 @@ def number_of_boxes_v2(graph, paths):
 
     return np.array(range(1, lb_max + 1)), Nb
 
+def number_of_boxes_fuzzy(graph, paths):
+    N = graph.number_of_nodes()
+
+    lb_max = graph_diameter(paths)
+
+    Nb = []
+
+    Lb = range(1, int(lb_max / 2))
+    for lb in Lb:
+        nb = 0
+
+        for i in range(N):
+            for j in range(N):
+                d_ij = len(paths[i][j]) - 1
+
+                if d_ij <= lb:
+                    A_ij = np.exp(- d_ij**2 / lb**2)
+                    nb += A_ij
+
+        Nb.append(nb / N / (N - 1))
+
+    return np.array(Lb), np.array(Nb)
 
 def number_of_boxes(dual_graph):
     """
