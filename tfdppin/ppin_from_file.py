@@ -69,8 +69,8 @@ if __name__ == "__main__":
     graph = nx.from_pandas_edgelist(df_ppin[[colA_name,colB_name]], colA_name, colB_name) # need to give a directionality here - just ignore
     graph.remove_edges_from(graph.selfloop_edges()) # gets rid of self loops (A->A)
     graph = graph.to_undirected()                   # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
-    #print("building graph took "+str(round(time.time()-starttime, 5))+" s")
-    print(fname, graph.number_of_nodes(), graph.number_of_edges(), time.time() - starttime) # for import into csv
+    print("building graph took "+str(round(time.time()-starttime, 5))+" s")
+    #print(fname, graph.number_of_nodes(), graph.number_of_edges(), time.time() - starttime) # for import into csv
     nx.write_edgelist(graph, "../biograd-organism/ppin/"+ fname +".edgeList", delimiter='\t')
 
     # save correspondence between biogrid ID and official symbol
@@ -92,9 +92,10 @@ if __name__ == "__main__":
 
     if (do_draw):
         plt.figure(figsize=(10, 8))
-        pos = nx.kamada_kawai_layout(graph)
-        nx.draw(graph, pos)
-        nx.draw_networkx_labels(graph, pos)
+        max_subgraph = max(nx.connected_component_subgraphs(graph), key=len) # only draw biggest connected subgraph
+        pos = nx.spring_layout(max_subgraph)
+        nx.draw(max_subgraph, pos, node_size=15)
+        #nx.draw_networkx_labels(graph, pos) # show name label for each protein
         plt.show()
 
     if (do_centrality):
