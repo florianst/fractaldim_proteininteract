@@ -1,4 +1,4 @@
-import greedy
+from tfdppin import greedy
 
 import numpy as np
 
@@ -19,7 +19,7 @@ def topological_fractal_dimension(graph, lb_min, lb_max, lb_step=1, method="gree
 
 
 if __name__ == "__main__":
-        import graphs
+        from tfdppin import graphs
 
         import matplotlib.pyplot as plt
 

@@ -1,4 +1,4 @@
-import graphs
+from tfdppin import graphs
 
 import pytest
 

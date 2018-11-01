@@ -1,8 +1,5 @@
 import networkx as nx
 
-import logging
-import time
-
 def dual_graph(graph, box_length):
     """
     Construct the dual graph of GRAPH for a given BOX_LENGTH, where the nodes
@@ -42,7 +39,7 @@ def number_of_boxes(graph, box_length):
 
 
 if __name__ == "__main__":
-    import graphs
+    from tfdppin import graphs
 
     import matplotlib.pyplot as plt
 

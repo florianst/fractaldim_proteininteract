@@ -1,5 +1,5 @@
-import greedy
-import graphs
+from tfdppin import greedy
+from tfdppin import graphs
 
 
 def test_dual_graph_path():

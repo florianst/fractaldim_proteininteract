@@ -1,5 +1,5 @@
-import TFD
-import graphs
+from tfdppin import TFD
+from tfdppin import graphs
 
 import networkx as nx
 import pytest

@@ -2,3 +2,10 @@
 [![codecov](https://codecov.io/gh/RMeli/TFDofPPIN/branch/master/graph/badge.svg?token=QVfYDX3saY)](https://codecov.io/gh/RMeli/TFDofPPIN)
 
 # Topological Fractal Dimension of Protein-Protein Interaction Networks
+
+## Installation
+Run
+```
+pip install .
+```
+from the root directory.
