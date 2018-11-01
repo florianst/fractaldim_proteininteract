@@ -3,19 +3,12 @@ import networkx as nx
 import logging
 import time
 
-logging.basicConfig(format='%(name)s %(levelname)s: %(message)s', level=logging.INFO)
-logger = logging.getLogger("Greedy")
-
-
 def dual_graph(graph, box_length):
     """
     Construct the dual graph of GRAPH for a given BOX_LENGTH, where the nodes
     are connected if the sitance in the original graph is grether or equal than
     BOX_LENGTH.
     """
-
-    logger.info("START dual_graph ...")
-    ti = time.process_time()
 
     paths = nx.shortest_path(graph)
 
@@ -30,9 +23,6 @@ def dual_graph(graph, box_length):
             if path_ij_length >= box_length:
                 dual.add_edge(i, j)
 
-    tf = time.process_time()
-    logger.info("END dual_graph (" + "{:.5f}".format(tf - ti) + "s)")
-
     return dual
 
 
@@ -42,17 +32,11 @@ def number_of_boxes(graph, box_length):
     of length BOX_LENGTH.
     """
 
-    logger.info("START number_of_boxes ...")
-    ti = time.process_time()
-
     dG = dual_graph(graph, box_length)
 
     colors = nx.coloring.greedy_color(dG)
 
     num_boxes = max(colors.values()) + 1
-
-    tf = time.process_time()
-    logger.info("END number_of_boxes (" + "{:.5f}".format(tf - ti) + "s)")
 
     return num_boxes
 
