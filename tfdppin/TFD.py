@@ -35,11 +35,11 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 100
+        N = 500
         G = graphs.build_path_graph(N)
         #tdf, lb, Nb = topological_fractal_dimension(G, 2, 15)
         paths = nx.shortest_path(G)
-        lb, Nb = greedy.number_of_boxes_v2(G, paths)
+        lb, Nb = greedy.number_of_boxes_fuzzy(G, paths)
         p = np.polyfit(np.log(lb), np.log(Nb), 1)
         tfd = -p[0]
         print("TDF Path:", tfd)
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         G = graphs.build_lattice_graph(N)
         #tdf, lb, Nb = topological_fractal_dimension(G, 2, 6)
         paths = nx.shortest_path(G)
-        lb, Nb = greedy.number_of_boxes_v2(G, paths)
+        lb, Nb = greedy.number_of_boxes_fuzzy(G, paths)
         p = np.polyfit(np.log(lb), np.log(Nb), 1)
         tfd = -p[0]
         print("TDF Lattice:", tfd)
