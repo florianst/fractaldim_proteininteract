@@ -20,10 +20,11 @@ def parse(default_fname = None, args = None):
     parser.add_argument("-i", type=str, default = default_fname, help = "Input file name")
     parser.add_argument("-c", action='store_true', default = False, help="Compute centrality parameters.")
     parser.add_argument("-d", action='store_true', default = False, help="Draw the network graph.")
+    parser.add_argument("-info", action='store_true', default=False, help="Print information about the graph.")
 
     args = parser.parse_args(args)
 
-    return args.i, args.c, args.d
+    return args.i, args.c, args.d, args.info
 
 def load_ppin(fname, folder = "../biograd-organism/"):
     """
@@ -56,7 +57,7 @@ def build_graph_from_ppin_file(fname):
 
 if __name__ == "__main__":
     default_fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"
-    fname, do_centrality, do_draw = parse(default_fname)
+    fname, do_centrality, do_draw, do_info = parse(default_fname)
     starttime = time.time()
 
     df_ppin = load_ppin(fname)
@@ -68,7 +69,8 @@ if __name__ == "__main__":
     graph = nx.from_pandas_edgelist(df_ppin[[colA_name,colB_name]], colA_name, colB_name) # need to give a directionality here - just ignore
     graph.remove_edges_from(graph.selfloop_edges()) # gets rid of self loops (A->A)
     graph = graph.to_undirected()                   # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
-    print("building graph took "+(time.time()-starttime)+" s")
+    print("building graph took "+str(round(time.time()-starttime, 5))+" s")
+    #print(fname, graph.number_of_nodes(), graph.number_of_edges(), time.time() - starttime) # for import into csv
     nx.write_edgelist(graph, "../biograd-organism/ppin/"+ fname +".edgeList", delimiter='\t')
 
     # save correspondence between biogrid ID and official symbol
@@ -86,13 +88,14 @@ if __name__ == "__main__":
     graph = nx.relabel_nodes(graph, dict_symbols) # label the nodes with their official symbols, not with their biogrid IDs
 
     # print some info about the graph
-    print_graphinfo(graph)
+    if (do_info): print_graphinfo(graph)
 
     if (do_draw):
         plt.figure(figsize=(10, 8))
-        pos = nx.kamada_kawai_layout(graph)
-        nx.draw(graph, pos)
-        nx.draw_networkx_labels(graph, pos)
+        max_subgraph = max(nx.connected_component_subgraphs(graph), key=len) # only draw biggest connected subgraph
+        pos = nx.spring_layout(max_subgraph)
+        nx.draw(max_subgraph, pos, node_size=15)
+        #nx.draw_networkx_labels(graph, pos) # show name label for each protein
         plt.show()
 
     if (do_centrality):
@@ -101,7 +104,6 @@ if __name__ == "__main__":
         eigenvector_dict = nx.eigenvector_centrality(graph)  # eigenvector centrality
         pagerank_dict    = nx.pagerank(graph)  # pagerank centrality
 
-
         # assign each to an attribute in every node
         nx.set_node_attributes(graph, betweenness_dict, 'betweenness')
         nx.set_node_attributes(graph, eigenvector_dict, 'eigenvector')
@@ -109,6 +111,8 @@ if __name__ == "__main__":
         sorted_betweenness = sorted(betweenness_dict.items(), key=itemgetter(1), reverse=True)
         sorted_eigenvector = sorted(eigenvector_dict.items(), key=itemgetter(1), reverse=True)
         sorted_pagerank    = sorted(pagerank_dict.items(), key=itemgetter(1), reverse=True)
+
+        print("computing centrality measures took " + str(round(time.time() - starttime, 2)) + " s")
 
         # normalise all centralities to one for comparison
         max_eigenvector = sorted_eigenvector[0][1]
@@ -122,5 +126,4 @@ if __name__ == "__main__":
         plt.title(fname + "\n " + str(graph.number_of_nodes()) + " nodes, " + str(graph.number_of_edges()) + " edges, " + str(nx.number_connected_components(graph)) + " connected components")
         plt.savefig("../biograd-organism/ppin/" + fname + ".Centrality.pdf")
 
-    print("time elapsed: "+str(round(time.time()-starttime, 2))+" s")
     if (do_centrality): plt.show()
