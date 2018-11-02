@@ -3,7 +3,7 @@ import networkx as nx
 import pytest
 
 
-def build_path_graph(n):
+def build_path_graph(n, PBC=False):
     """
     Build path graph of length n.
     """
@@ -15,10 +15,13 @@ def build_path_graph(n):
 
     G.add_edges_from([(i, i+1) for i in range(n - 1)])
 
+    if PBC:
+        G.add_edge(0, n-1)
+
     return G
 
 
-def build_lattice_graph(n):
+def build_lattice_graph(n, PBC=False):
     """
     Build lattice graph with n*n nodes.
     """
@@ -44,6 +47,11 @@ def build_lattice_graph(n):
 
             G.add_edge(idx, idx + n)
 
+    if PBC:
+        for idx in range(n):
+            G.add_edge(idx, idx + n * (n - 1))
+            G.add_edge(idx * n, idx * n + n - 1)
+
     return G
 
 
@@ -60,11 +68,11 @@ if __name__ == "__main__":
     f = plt.figure(figsize=(10,5))
 
     f.add_subplot(1, 3, 1)
-    G = build_path_graph(10)
+    G = build_path_graph(10, PBC=True)
     nx.draw(G, with_labels=True)
 
     f.add_subplot(1, 3, 2)
-    G = build_lattice_graph(4)
+    G = build_lattice_graph(3, PBC=True)
     nx.draw(G, with_labels=True)
 
     f.add_subplot(1, 3, 3)

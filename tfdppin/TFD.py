@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 10
+        N = 50
         G = graphs.build_path_graph(N)
         #p, lb, Nb = tfd_greedy(G, 2, 15)
         p, lb, Nb = tfd_fuzzy(G)
