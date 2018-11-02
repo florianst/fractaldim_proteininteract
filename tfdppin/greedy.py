@@ -88,15 +88,12 @@ def number_of_boxes_fuzzy(graph, paths):
 
     return np.array(Lb), np.array(Nb)
 
-def number_of_boxes(dual_graph):
+def number_of_boxes(dG):
     """
-    Determines the minimum number of boxes to cover the graph DUAL_GRAPH.
+    Determines the minimum number of boxes to cover the dual graph DG.
     """
 
-    ti = time.time()
-    print("greedy_color...", end=' ')
-    colors = nx.coloring.greedy_color(dual_graph)
-    print("{:.2f}".format(time.time() - ti))
+    colors = nx.coloring.greedy_color(dG)
 
     num_boxes = max(colors.values()) + 1
 
@@ -106,9 +103,9 @@ def num_boxes_from_graph(graph, lb):
 
     paths = nx.shortest_path(graph)
 
-    dual_graph = greedy.dual_graph(graph, paths, lb)
+    dG = dual_graph(graph, paths, lb)
 
-    return number_of_boxes(dual_graph)
+    return number_of_boxes(dG)
 
 
 if __name__ == "__main__":

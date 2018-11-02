@@ -5,26 +5,38 @@ import networkx as nx
 
 import time
 
-def topological_fractal_dimension(graph, lb_min, lb_max, lb_step=1, method="greedy"):
+def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
+    """
+    Computes the topological fractal dimension with the greedy coloring
+    algorithm of Song 2007.
+    """
     Nb = []
     lb = np.arange(lb_min, lb_max, lb_step)
 
-    if method == "greedy":
+    ti = time.time()
+    print("shortest_path...", end=' ')
+    paths = nx.shortest_path(graph)
+    print("{:.2f}".format(time.time() - ti))
 
-        ti = time.time()
-        print("shortest_path...", end=' ')
-        paths = nx.shortest_path(graph)
-        print("{:.2f}".format(time.time() - ti))
+    for l in lb:
+        dual_graph = greedy.dual_graph(graph, paths, l)
+        Nb.append(greedy.number_of_boxes(dual_graph))
 
-        for l in lb:
-            dual_graph = greedy.dual_graph(graph, paths, l)
-            Nb.append(greedy.number_of_boxes(dual_graph))
-    elif method == "burning":
-        pass
-    else:
-        pass
+    return np.polyfit(np.log(lb), np.log(Nb), 1), lb, np.array(Nb)
 
-    return -np.polyfit(np.log(lb), np.log(Nb), 1)[0], lb, np.array(Nb)
+def tfd_fuzzy(graph):
+    """
+    Computes the topological fractal dimension with the fuzzy algorithm of
+    Zhang 2014.
+    """
+
+    paths = nx.shortest_path(graph)
+
+    lb, Nb = greedy.number_of_boxes_fuzzy(graph, paths)
+
+    return np.polyfit(np.log(lb), np.log(Nb), 1), lb, np.array(Nb)
+
+
 
 
 if __name__ == "__main__":
@@ -35,14 +47,11 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 500
+        N = 10
         G = graphs.build_path_graph(N)
-        #tdf, lb, Nb = topological_fractal_dimension(G, 2, 15)
-        paths = nx.shortest_path(G)
-        lb, Nb = greedy.number_of_boxes_fuzzy(G, paths)
-        p = np.polyfit(np.log(lb), np.log(Nb), 1)
-        tfd = -p[0]
-        print("TDF Path:", tfd)
+        #p, lb, Nb = tfd_greedy(G, 2, 15)
+        p, lb, Nb = tfd_fuzzy(G)
+        print("TDF Path:", p[0])
 
         f.add_subplot(1, 2, 1)
         plt.title("Path (N = {})".format(N))
@@ -53,14 +62,11 @@ if __name__ == "__main__":
         x = np.linspace(min(np.log(lb)), max(np.log(lb)),100)
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
 
-        N = 30
+        N = 10
         G = graphs.build_lattice_graph(N)
-        #tdf, lb, Nb = topological_fractal_dimension(G, 2, 6)
-        paths = nx.shortest_path(G)
-        lb, Nb = greedy.number_of_boxes_fuzzy(G, paths)
-        p = np.polyfit(np.log(lb), np.log(Nb), 1)
-        tfd = -p[0]
-        print("TDF Lattice:", tfd)
+        #p, lb, Nb = tfd_greedy(G, 2, 15)
+        p, lb, Nb = tfd_fuzzy(G)
+        print("TDF Lattice:", p[0])
 
         f.add_subplot(1, 2, 2)
         plt.title("Lattice (N = {})".format(N * N))
