@@ -21,3 +21,5 @@ biograd-organism/ppin/huge
 tfdppin\.egg-info/
 
 tfdppin/data/
+
+ipynb/\.ipynb_checkpoints/

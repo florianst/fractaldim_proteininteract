@@ -47,8 +47,10 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 50
-        G = graphs.build_path_graph(N)
+        pbc = True
+
+        N = 400
+        G = graphs.build_path_graph(N, PBC=pbc)
         #p, lb, Nb = tfd_greedy(G, 2, 15)
         p, lb, Nb = tfd_fuzzy(G)
         print("TDF Path:", p[0])
@@ -62,8 +64,8 @@ if __name__ == "__main__":
         x = np.linspace(min(np.log(lb)), max(np.log(lb)),100)
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
 
-        N = 10
-        G = graphs.build_lattice_graph(N)
+        N = 60
+        G = graphs.build_lattice_graph(N, PBC=pbc)
         #p, lb, Nb = tfd_greedy(G, 2, 15)
         p, lb, Nb = tfd_fuzzy(G)
         print("TDF Lattice:", p[0])
