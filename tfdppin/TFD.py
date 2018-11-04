@@ -37,8 +37,6 @@ def tfd_fuzzy(graph):
     return np.polyfit(np.log(lb), np.log(Nb), 1), lb, np.array(Nb)
 
 
-
-
 if __name__ == "__main__":
         from tfdppin import graphs
 
