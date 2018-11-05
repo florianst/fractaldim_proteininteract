@@ -69,7 +69,7 @@ def number_of_boxes_fuzzy(graph, paths):
 
     n_boxes = []
 
-    l_boxes = range(1, int(lb_max / 2))
+    l_boxes = range(1, int(lb_max / 2) + 1)
     for lb in l_boxes:
         nb = 0
 
