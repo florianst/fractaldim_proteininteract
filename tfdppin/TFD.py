@@ -35,9 +35,6 @@ def tfd_fuzzy(graph):
 
     l_boxes, n_boxes = greedy.number_of_boxes_fuzzy(graph, paths)
 
-    print(l_boxes)
-    print(n_boxes)
-
     return np.polyfit(np.log(l_boxes), np.log(n_boxes), 1), l_boxes, np.array(n_boxes)
 
 

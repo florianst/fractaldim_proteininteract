@@ -43,27 +43,21 @@ def number_of_boxes_v2(graph, paths):
 
     color_mtx[0][:] = 0
 
-    # print(C)
-
     for i in range(1, n_nodes):
         for lb in range(1, lb_max + 1):
             used_colors = [0]
 
             for j in range(i):
                 l_ij = len(paths[i][j]) - 1
-                # print("i =", i, "j =", j, "l_ij =", l_ij, "lb =", lb)
 
                 if l_ij >= lb:
-                    # print("l_ij =", l_ij, " ==", "lb =", lb)
                     used_colors.append(color_mtx[j][l_ij])
-                    # print(used_colors)
 
             new_color = max(used_colors) + 1
 
             color_mtx[i][lb-1] = new_color
 
     n_boxes = np.amax(color_mtx, axis=0) + 1
-    # print(n_boxes)
 
     return np.array(range(1, lb_max + 1)), n_boxes
 
@@ -83,17 +77,14 @@ def number_of_boxes_fuzzy(graph, paths):
             for j in range(n_nodes):
 
                 try:
-                    # print("TRY", i, j)
                     path = paths[i][j]
                     d_ij = len(paths[i][j]) - 1
 
-                    #print(lb, d_ij)
                     if d_ij <= lb:
                         a_ij = np.exp(- d_ij**2 / lb**2)
                         nb += a_ij
 
                 except KeyError:
-                    # print("EXCEPT", i, j)
                     pass
 
         n_boxes.append(nb / n_nodes / (n_nodes - 1))
