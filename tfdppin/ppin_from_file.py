@@ -6,11 +6,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse as ap
+import seaborn as sb
 
 # TODO:
 # parallelize networkx centrality
-# fct that gives out graph variable
-# seaborn plots
 
 def parse(default_fname = None, args = None):
     """
@@ -63,7 +62,7 @@ def build_graph_from_ppin_file(fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.
     graph = nx.from_pandas_edgelist(df_ppin[[colA_name, colB_name]], colA_name, colB_name)  # need to give a directionality here - just ignore
     graph.remove_edges_from(graph.selfloop_edges())  # gets rid of self loops (A->A)
     graph = graph.to_undirected()  # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
-    
+
     return graph
 
 
@@ -106,11 +105,15 @@ if __name__ == "__main__":
         plt.figure(figsize=(10, 8))
         max_subgraph = max(nx.connected_component_subgraphs(graph), key=len) # only draw biggest connected subgraph
         pos = nx.spring_layout(max_subgraph)
-        nx.draw(max_subgraph, pos, node_size=15)
+        node_colors = [(0.7 if 'Ubc' in node else (0.3 if (('Ubc', node) in max_subgraph.edges(node) or (node, 'Ubc') in max_subgraph.edges(node)) else 0.9)) for node in max_subgraph.nodes()]
+        #edge_colors = [('k' if ('Ubc' in edge) else 'y') for edge in max_subgraph.edges()]
+        nx.draw(max_subgraph, pos, node_size=15, cmap=plt.get_cmap('jet'), node_color=node_colors)
         #nx.draw_networkx_labels(graph, pos) # show name label for each protein
         plt.show()
 
     if (do_centrality):
+        sb.set(font_scale=1.3)
+        sb.set_style("ticks")
         k=5000
         betweenness_dict = nx.betweenness_centrality(graph, k=min(k, graph.number_of_nodes()))  # betweenness centrality (slow - only consider a random sample of k nodes)
         eigenvector_dict = nx.eigenvector_centrality(graph)  # eigenvector centrality
@@ -135,7 +138,7 @@ if __name__ == "__main__":
 
         df_plot = pd.DataFrame({'betweenness' + (" (k=" + str(k) + ")" if k < graph.number_of_nodes() else ""): [betweenness_dict[i] / max_betweenness for i in plotNames], 'eigenvector': [eigenvector_dict[i] / max_eigenvector for i in plotNames], 'pagerank': [pagerank_dict[i] / max_pagerank for i in plotNames]}, index=plotNames)
         ax = df_plot.plot.bar(rot=0)
-        plt.title(fname + "\n " + str(graph.number_of_nodes()) + " nodes, " + str(graph.number_of_edges()) + " edges, " + str(nx.number_connected_components(graph)) + " connected components")
+        #plt.title(fname + "\n " + str(graph.number_of_nodes()) + " nodes, " + str(graph.number_of_edges()) + " edges, " + str(nx.number_connected_components(graph)) + " connected components")
         plt.savefig("../biograd-organism/ppin/" + fname + ".Centrality.pdf")
 
     if (do_centrality): plt.show()
