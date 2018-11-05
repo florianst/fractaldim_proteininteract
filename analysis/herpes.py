@@ -1,4 +1,5 @@
 from tfdppin import TFD
+from tfdppin import greedy
 from tfdppin import ppin_from_file as load
 
 from matplotlib import pylab as plt
@@ -13,12 +14,16 @@ graph = load.build_graph_from_ppin_file("huge/BIOGRID-ORGANISM-Escherichia_coli_
 #nx.draw(graph, node_size=10)
 #plt.show()
 
+paths = nx.shortest_path(graph)
+
+print("Diameter:", greedy.graph_diameter(paths))
+
 p, lb, Nb  = TFD.tfd_fuzzy(graph)
 
 print("TFD:", p[0]) 
 
 print(lb)
-print(nb)
+print(Nb)
 
 plt.loglog(lb, Nb, 'o')
 x = np.linspace(min(np.log(lb)), max(np.log(lb)), 100)
