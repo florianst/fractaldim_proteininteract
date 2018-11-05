@@ -9,6 +9,8 @@ import argparse as ap
 
 # TODO:
 # parallelize networkx centrality
+# fct that gives out graph variable
+# seaborn plots
 
 def parse(default_fname = None, args = None):
     """
@@ -51,8 +53,18 @@ def print_graphinfo(graph):
     graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
     print("largest connected component: " + str(graph_maxconnected.number_of_nodes()) + " nodes, " + str(graph_maxconnected.number_of_edges()) + " edges")
 
-def build_graph_from_ppin_file(fname):
-    pass
+def build_graph_from_ppin_file(fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"): # return graph from ppin file, with labels: Interactor IDs
+    df_ppin = load_ppin(fname)
+
+    colA_name, colB_name = "BioGRID ID Interactor A", "BioGRID ID Interactor B"
+    colOffA_name, colOffB_name = "Official Symbol Interactor A", "Official Symbol Interactor B"
+
+    # draw graph
+    graph = nx.from_pandas_edgelist(df_ppin[[colA_name, colB_name]], colA_name, colB_name)  # need to give a directionality here - just ignore
+    graph.remove_edges_from(graph.selfloop_edges())  # gets rid of self loops (A->A)
+    graph = graph.to_undirected()  # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
+    
+    return graph
 
 
 if __name__ == "__main__":
