@@ -1,9 +1,7 @@
 import networkx as nx
 
-import pytest
 
-
-def build_path_graph(n, PBC=False):
+def build_path_graph(n, pbc=False):
     """
     Build path graph of length n.
     """
@@ -11,17 +9,17 @@ def build_path_graph(n, PBC=False):
     if n < 2:
         raise ValueError
 
-    G = nx.Graph()
+    graph = nx.Graph()
 
-    G.add_edges_from([(i, i+1) for i in range(n - 1)])
+    graph.add_edges_from([(i, i+1) for i in range(n - 1)])
 
-    if PBC:
-        G.add_edge(0, n-1)
+    if pbc:
+        graph.add_edge(0, n-1)
 
-    return G
+    return graph
 
 
-def build_lattice_graph(n, PBC=False):
+def build_lattice_graph(n, pbc=False):
     """
     Build lattice graph with n*n nodes.
     """
@@ -29,50 +27,50 @@ def build_lattice_graph(n, PBC=False):
     if n < 2:
         raise ValueError
 
-    G = nx.Graph()
+    graph = nx.Graph()
 
-    G.add_nodes_from([i for i in range(n * n)])
+    graph.add_nodes_from([i for i in range(n * n)])
 
     # Add edges in the same row
     for i in range(n):
         for j in range(n - 1):
             idx = i * n + j
 
-            G.add_edge(idx, idx + 1)
+            graph.add_edge(idx, idx + 1)
 
     # Add edges bettween different rows
     for i in range(n - 1):
         for j in range(n):
             idx = i * n + j
 
-            G.add_edge(idx, idx + n)
+            graph.add_edge(idx, idx + n)
 
-    if PBC:
+    if pbc:
         for idx in range(n):
-            G.add_edge(idx, idx + n * (n - 1))
-            G.add_edge(idx * n, idx * n + n - 1)
+            graph.add_edge(idx, idx + n * (n - 1))
+            graph.add_edge(idx * n, idx * n + n - 1)
 
-    return G
+    return graph
 
 
 def build_song2007_graph():
-    G = nx.Graph()
-    G.add_edges_from([(0, 1), (0, 2), (1, 2), (2, 3), (3, 4), (4, 5)])
+    graph = nx.Graph()
+    graph.add_edges_from([(0, 1), (0, 2), (1, 2), (2, 3), (3, 4), (4, 5)])
 
-    return G
+    return graph
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    f = plt.figure(figsize=(10,5))
+    f = plt.figure(figsize=(10, 5))
 
     f.add_subplot(1, 3, 1)
-    G = build_path_graph(10, PBC=True)
+    G = build_path_graph(10, pbc=True)
     nx.draw(G, with_labels=True)
 
     f.add_subplot(1, 3, 2)
-    G = build_lattice_graph(3, PBC=True)
+    G = build_lattice_graph(3, pbc=True)
     nx.draw(G, with_labels=True)
 
     f.add_subplot(1, 3, 3)
