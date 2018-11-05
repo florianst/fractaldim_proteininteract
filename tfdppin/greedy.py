@@ -81,11 +81,20 @@ def number_of_boxes_fuzzy(graph, paths):
 
         for i in range(n_nodes):
             for j in range(n_nodes):
-                d_ij = len(paths[i][j]) - 1
 
-                if d_ij <= lb:
-                    a_ij = np.exp(- d_ij**2 / lb**2)
-                    nb += a_ij
+                try:
+                    # print("TRY", i, j)
+                    path = paths[i][j]
+                    d_ij = len(paths[i][j]) - 1
+
+                    #print(lb, d_ij)
+                    if d_ij <= lb:
+                        a_ij = np.exp(- d_ij**2 / lb**2)
+                        nb += a_ij
+
+                except KeyError:
+                    # print("EXCEPT", i, j)
+                    pass
 
         n_boxes.append(nb / n_nodes / (n_nodes - 1))
 

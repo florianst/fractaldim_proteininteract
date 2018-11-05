@@ -63,8 +63,8 @@ def build_graph_from_ppin_file(fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.
     graph = nx.from_pandas_edgelist(df_ppin[[colA_name, colB_name]], colA_name, colB_name)  # need to give a directionality here - just ignore
     graph.remove_edges_from(graph.selfloop_edges())  # gets rid of self loops (A->A)
     graph = graph.to_undirected()  # gets rid of duplicates (A->B, A->B) and inverse duplicates (A->B, B->A)
-    
-    return graph
+
+    return nx.convert_node_labels_to_integers(graph)
 
 
 if __name__ == "__main__":
