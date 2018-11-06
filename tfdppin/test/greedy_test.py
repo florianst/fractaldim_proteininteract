@@ -53,6 +53,67 @@ def test_graph_diameter():
 
     assert greedy.graph_diameter(paths) == 4
 
+def test_color_matrix_path_2():
+
+    G = graphs.build_path_graph(2)
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    assert c[0][0] == 0
+    assert c[1][0] == 1
+
+def test_color_matrix_path_3():
+
+    G = graphs.build_path_graph(3)
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    lb = 1
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 1
+    assert c[2][lb - 1] == 2
+
+    lb = 2
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 1
+
+
+def test_color_matrix_path_4():
+
+    G = graphs.build_path_graph(4)
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    lb = 1
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 1
+    assert c[2][lb - 1] == 2
+    assert c[3][lb - 1] == 3
+
+    lb = 2
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 1
+    assert c[3][lb - 1] == 1
+
+    lb = 3
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 0
+    assert c[3][lb - 1] == 1
+
+
+def test_color_matrix_lattice_2():
+    pass
+
+
 
 def test_color_matrix_song2007():
     """
