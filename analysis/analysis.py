@@ -14,7 +14,8 @@ sns.set(style="ticks")
 files = {
     "herpes": "BIOGRID-ORGANISM-Human_Herpesvirus_8-3.5.166.tab2.txt",
     "ecoli": "BIOGRID-ORGANISM-Escherichia_coli_K12_W3110-3.5.166.tab2.txt",
-    "celegans": "BIOGRID-ORGANISM-Caenorhabditis_elegans-3.5.166.tab2.txt"
+    "celegans": "BIOGRID-ORGANISM-Caenorhabditis_elegans-3.5.166.tab2.txt",
+    "athaliana": "BIOGRID-ORGANISM-Arabidopsis_thaliana_Columbia-3.5.166.tab2.txt"
     #"homosapiens": "BIOGRID-ORGANISM-Homo_sapiens-3.5.166.tab2.txt"
 }
 
