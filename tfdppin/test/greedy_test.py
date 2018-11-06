@@ -31,6 +31,30 @@ def test_dual_graph_song2007():
     assert dG.has_edge(1, 5)
     assert dG.has_edge(2, 5)
 
+def test_graph_diameter():
+
+    for i in range(2,10):
+        G = graphs.build_path_graph(i)
+
+        paths = nx.shortest_path(G)
+
+        assert greedy.graph_diameter(paths) == i - 1
+
+    for i in range(2, 10):
+        G = graphs.build_lattice_graph(i)
+
+        paths = nx.shortest_path(G)
+
+        assert greedy.graph_diameter(paths) == 2 * i - 2
+
+    G = graphs.build_song2007_graph()
+
+    paths = nx.shortest_path(G)
+
+    assert greedy.graph_diameter(paths) == 4
+
+
+
 
 def test_number_of_boxes_path():
 
@@ -70,20 +94,10 @@ def test_number_of_boxes_lattice():
         assert greedy.num_boxes_from_graph(G, n * n + 1) == 1
 
 def test_number_of_boxes_path_v2():
-
-    graph = graphs.build_song2007_graph()
-
-    paths = nx.shortest_path(graph)
-    greedy.number_of_boxes_v2(graph, paths)
-
+    pass
 
 def test_number_of_boxes_song2007():
 
     G = graphs.build_song2007_graph()
 
     assert greedy.num_boxes_from_graph(G, 3) == 2
-
-if __name__ == "__main__":
-    import networkx as nx
-
-    test_number_of_boxes_path_v2()

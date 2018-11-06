@@ -12,9 +12,6 @@ def dual_graph(graph, paths, box_length):
 
     n = graph.number_of_nodes()
 
-    ti = time.time()
-    print("build dual graph...", end=' ')
-
     dual = nx.Graph()
     dual.add_nodes_from(graph.nodes())
     for i in range(n):
@@ -24,13 +21,11 @@ def dual_graph(graph, paths, box_length):
             if path_ij_length >= box_length:
                 dual.add_edge(i, j)
 
-    print("{:.2f}".format(time.time() - ti))
-
     return dual
 
 
 def graph_diameter(paths):
-    return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values())))
+    return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values()))) - 1
 
 
 def number_of_boxes_v2(graph, paths):
@@ -44,7 +39,7 @@ def number_of_boxes_v2(graph, paths):
     color_mtx[0][:] = 0
 
     for i in range(1, n_nodes):
-        for lb in range(1, lb_max + 1):
+        for lb in range(1, lb_max):
             used_colors = [0]
 
             for j in range(i):
@@ -57,9 +52,11 @@ def number_of_boxes_v2(graph, paths):
 
             color_mtx[i][lb-1] = new_color
 
+            print(color_mtx)
+
     n_boxes = np.amax(color_mtx, axis=0) + 1
 
-    return np.array(range(1, lb_max + 1)), n_boxes
+    return np.array(range(1, lb_max)), n_boxes
 
 
 def number_of_boxes_fuzzy(graph, paths):
@@ -105,6 +102,12 @@ def number_of_boxes(dual_graph):
 
 
 def num_boxes_from_graph(graph, lb):
+    """
+    Number of boxes of size LB needed to cover the graph GRAPH.
+
+    This function is inefficient and should not be used to compute the number of boxes for
+    many different values of lb, since the shortest paths are computed every time.
+    """
 
     paths = nx.shortest_path(graph)
 
@@ -119,12 +122,18 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     G = graphs.build_song2007_graph()
+
+    assert num_boxes_from_graph(G, 3) == 2
+
     plt.figure(1)
     nx.draw(G, with_labels=True)
     plt.show(block=False)
 
     paths = nx.shortest_path(G)
-    dG = dual_graph(G, paths, 3)
+
+    number_of_boxes_v2(G, paths)
+
+    dG = dual_graph(G, paths, 4)
     plt.figure(2)
     nx.draw(dG, with_labels=True)
     plt.show()

@@ -10,13 +10,19 @@ def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
     Computes the topological fractal dimension with the greedy coloring
     algorithm of Song 2007.
     """
+
+    paths = nx.shortest_path(graph)
+
+    diameter = graph_diameter(paths)
+
+    if diameter < lb_max:
+        lb_max = diameter
+
+    if lb_max <= lb_min:
+        raise ValueError
+
     n_boxes = []
     l_boxes = np.arange(lb_min, lb_max, lb_step)
-
-    ti = time.time()
-    print("shortest_path...", end=' ')
-    paths = nx.shortest_path(graph)
-    print("{:.2f}".format(time.time() - ti))
 
     for l in l_boxes:
         dual_graph = greedy.dual_graph(graph, paths, l)
@@ -24,6 +30,13 @@ def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
 
     return np.polyfit(np.log(l_boxes), np.log(n_boxes), 1), l_boxes, np.array(n_boxes)
 
+
+def tfd_greedy_v2(graph):
+    paths = nx.shortest_path(graph)
+
+    l_boxes, n_boxes = greedy.number_of_boxes_v2(graph, paths)
+
+    return np.polyfit(np.log(l_boxes), np.log(n_boxes), 1), l_boxes, np.array(n_boxes)
 
 def tfd_fuzzy(graph):
     """
@@ -44,14 +57,19 @@ if __name__ == "__main__":
         import matplotlib.pyplot as plt
         import os
 
+        pbc = True
+        fuzzy = False
+
         f = plt.figure(figsize=(12, 5))
 
-        pbc = True
-
-        N = 400
+        N = 100
         G = graphs.build_path_graph(N, pbc=pbc)
-        # p, lb, Nb = tfd_greedy(G, 2, 15)
-        p, lb, Nb = tfd_fuzzy(G)
+        if fuzzy:
+            p, lb, Nb = tfd_fuzzy(G)
+        else:
+            #p, lb, Nb = tfd_greedy(G, 2, 10)
+            p, lb, Nb = tfd_greedy_v2(G)
+
         print("TDF Path:", p[0])
 
         f.add_subplot(1, 2, 1)
@@ -63,10 +81,14 @@ if __name__ == "__main__":
         x = np.linspace(min(np.log(lb)), max(np.log(lb)), 100)
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
 
-        N = 60
+        N = 20
         G = graphs.build_lattice_graph(N, pbc=pbc)
-        # p, lb, Nb = tfd_greedy(G, 2, 15)
-        p, lb, Nb = tfd_fuzzy(G)
+        if fuzzy:
+            p, lb, Nb = tfd_fuzzy(G)
+        else:
+            #p, lb, Nb = tfd_greedy(G, 2, 10)
+            p, lb, Nb = tfd_greedy_v2(G)
+
         print("TDF Lattice:", p[0])
 
         f.add_subplot(1, 2, 2)
