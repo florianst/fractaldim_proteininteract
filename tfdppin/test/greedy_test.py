@@ -54,6 +54,52 @@ def test_graph_diameter():
     assert greedy.graph_diameter(paths) == 4
 
 
+def test_color_matrix_song2007():
+    """
+    Compared with manual coloring of dual graphs.
+
+    Dual graphs were built manually and checked with the dual_graph function.
+    Coloring for lb = 3 was compared to Song's paper.
+    Coloring for lb != 3 was performed manually (easy for lb=1 and lb=4=lb_max).
+    """
+
+    G = graphs.build_song2007_graph()
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    lb = 1
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 1
+    assert c[2][lb - 1] == 2
+    assert c[3][lb - 1] == 3
+    assert c[4][lb - 1] == 4
+    assert c[5][lb - 1] == 5
+
+    lb = 2
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 0
+    assert c[3][lb - 1] == 1
+    assert c[4][lb - 1] == 1
+    assert c[5][lb - 1] == 2
+
+    lb = 3
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 0
+    assert c[3][lb - 1] == 0
+    assert c[4][lb - 1] == 1
+    assert c[5][lb - 1] == 1
+
+    lb = 4
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 0
+    assert c[3][lb - 1] == 0
+    assert c[4][lb - 1] == 0
+    assert c[5][lb - 1] == 1
 
 
 def test_number_of_boxes_path():

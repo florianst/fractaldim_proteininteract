@@ -28,35 +28,43 @@ def graph_diameter(paths):
     return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values()))) - 1
 
 
-def number_of_boxes_v2(graph, paths):
+def color_matrix(graph, paths):
     n_nodes = graph.number_of_nodes()
 
     lb_max = graph_diameter(paths)
-    print("lb_max =", lb_max)
 
     color_mtx = -1 * np.ones((n_nodes, lb_max), dtype=int)
 
     color_mtx[0][:] = 0
 
     for i in range(1, n_nodes):
-        for lb in range(1, lb_max):
-            used_colors = [0]
+        for lb in range(1, lb_max + 1):
+            used_colors = []
 
             for j in range(i):
                 l_ij = len(paths[i][j]) - 1
 
                 if l_ij >= lb:
-                    used_colors.append(color_mtx[j][l_ij])
+                    used_colors.append(color_mtx[j][l_ij - 1])
 
-            new_color = max(used_colors) + 1
+            if used_colors:
+                new_color = max(used_colors) + 1
+            else: # No used colors apart from 0
+                new_color = 0
 
-            color_mtx[i][lb-1] = new_color
+            color_mtx[i][lb - 1] = new_color
 
-            print(color_mtx)
+    return color_mtx
+
+def number_of_boxes_v2(graph, paths):
+
+    color_mtx = color_matrix(graph, paths)
 
     n_boxes = np.amax(color_mtx, axis=0) + 1
 
-    return np.array(range(1, lb_max)), n_boxes
+    lb_max = graph_diameter(paths)
+
+    return np.array(range(1, lb_max + 1)), n_boxes
 
 
 def number_of_boxes_fuzzy(graph, paths):
