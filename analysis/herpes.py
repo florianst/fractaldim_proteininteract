@@ -14,9 +14,8 @@ graph = load.build_graph_from_ppin_file("huge/BIOGRID-ORGANISM-Escherichia_coli_
 #nx.draw(graph, node_size=10)
 #plt.show()
 
-paths = nx.shortest_path(graph)
-
-print("Diameter:", greedy.graph_diameter(paths))
+#paths = nx.shortest_path(graph)
+#print("Diameter:", greedy.graph_diameter(paths))
 
 p, lb, Nb  = TFD.tfd_fuzzy(graph)
 
