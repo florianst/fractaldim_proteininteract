@@ -59,7 +59,7 @@ if __name__ == "__main__":
         import matplotlib.pyplot as plt
         import os
 
-        pbc = True
+        pbc = False
         fuzzy = False
 
         f = plt.figure(figsize=(12, 5))
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]), label="Slope: {:.3f}".format(p[0]))
         plt.legend()
 
-        N = 40
+        N = 10
         G = graphs.build_lattice_graph(N, pbc=pbc)
         if fuzzy:
             p, lb, Nb = tfd_fuzzy(G)
@@ -92,6 +92,7 @@ if __name__ == "__main__":
             #p, lb, Nb = tfd_greedy_slow(G)
             p, lb, Nb = tfd_greedy(G)
 
+        #print(lb, Nb)
         print("TDF Lattice:", p[0])
 
         f.add_subplot(1, 2, 2)

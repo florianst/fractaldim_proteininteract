@@ -21,7 +21,7 @@ files = {
 
 for i, f in enumerate(files.keys()):
 
-    if os.path.isfile(f + ".pdf"):
+    if os.path.isfile(f + "_fuzzy.pdf"):
         continue
 
     plt.figure(i)
@@ -42,5 +42,5 @@ for i, f in enumerate(files.keys()):
     x = np.linspace(min(np.log(lb)), max(np.log(lb)), 100)
     plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]), label="Slope: {:.3f}".format(p[0]))
     plt.legend()
-    plt.savefig(f + ".pdf")
+    plt.savefig(f + "_fuzzy.pdf")
     #plt.show()

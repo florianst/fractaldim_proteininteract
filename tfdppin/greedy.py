@@ -33,6 +33,7 @@ def color_matrix(graph, paths):
 
     lb_max = graph_diameter(paths)
 
+    #print(lb_max)
 
     color_mtx = -1 * np.ones((n_nodes, lb_max), dtype=int)
 
@@ -40,16 +41,27 @@ def color_matrix(graph, paths):
 
     for i in range(1, n_nodes):
         for lb in range(1, lb_max + 1):
+
             used_colors = []
 
             for j in range(i):
-                l_ij = len(paths[i][j]) - 1
+                try:
+                    l_ij = len(paths[i][j]) - 1
 
-                if l_ij >= lb:
-                    used_colors.append(color_mtx[j][lb - 1]) # The indices in Song's paper are wrong!
+                    if l_ij >= lb:
+                        used_colors.append(color_mtx[j][lb - 1])  # The indices in Song's paper are wrong!
+
+                except KeyError:
+                    pass
+
+
 
             if used_colors:
-                new_color = max(used_colors) + 1
+                new_color = min(set(range(n_nodes)).difference(used_colors))
+                #for col in range(n_nodes):
+                #    if not (col in used_colors):
+                #        new_color = col
+                #        break
             else: # No used colors apart from 0
                 new_color = 0
 
