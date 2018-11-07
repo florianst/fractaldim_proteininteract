@@ -5,7 +5,7 @@ import networkx as nx
 import time
 
 
-def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
+def tfd_greedy_slow(graph, lb_min = 1, lb_max = None, lb_step=1):
     """
     Computes the topological fractal dimension with the greedy coloring
     algorithm of Song 2007.
@@ -13,9 +13,9 @@ def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
 
     paths = nx.shortest_path(graph)
 
-    diameter = graph_diameter(paths)
+    diameter = greedy.graph_diameter(paths)
 
-    if diameter < lb_max:
+    if lb_max is None or diameter < lb_max: # Works with lazy evaluation
         lb_max = diameter
 
     if lb_max <= lb_min:
@@ -31,7 +31,7 @@ def tfd_greedy(graph, lb_min, lb_max, lb_step=1):
     return np.polyfit(np.log(l_boxes), np.log(n_boxes), 1), l_boxes, np.array(n_boxes)
 
 
-def tfd_greedy_v2(graph):
+def tfd_greedy(graph):
     paths = nx.shortest_path(graph)
 
     l_boxes, n_boxes = greedy.number_of_boxes_v2(graph, paths)
@@ -62,13 +62,13 @@ if __name__ == "__main__":
 
         f = plt.figure(figsize=(12, 5))
 
-        N = 100
+        N = 200
         G = graphs.build_path_graph(N, pbc=pbc)
         if fuzzy:
             p, lb, Nb = tfd_fuzzy(G)
         else:
-            #p, lb, Nb = tfd_greedy(G, 2, 10)
-            p, lb, Nb = tfd_greedy_v2(G)
+            #p, lb, Nb = tfd_greedy_slow(G)
+            p, lb, Nb = tfd_greedy(G)
 
         print("TDF Path:", p[0])
 
@@ -79,15 +79,16 @@ if __name__ == "__main__":
         plt.loglog(lb, Nb, 'o')
 
         x = np.linspace(min(np.log(lb)), max(np.log(lb)), 100)
-        plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
+        plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]), label="Slope: {:.3f}".format(p[0]))
+        plt.legend()
 
-        N = 20
+        N = 30
         G = graphs.build_lattice_graph(N, pbc=pbc)
         if fuzzy:
             p, lb, Nb = tfd_fuzzy(G)
         else:
-            #p, lb, Nb = tfd_greedy(G, 2, 10)
-            p, lb, Nb = tfd_greedy_v2(G)
+            #p, lb, Nb = tfd_greedy_slow(G)
+            p, lb, Nb = tfd_greedy(G)
 
         print("TDF Lattice:", p[0])
 
@@ -98,7 +99,8 @@ if __name__ == "__main__":
         plt.loglog(lb, Nb, 'o')
 
         x = np.linspace(min(np.log(lb)), max(np.log(lb)), 100)
-        plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]))
+        plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]), label="Slope: {:.3f}".format(p[0]))
+        plt.legend()
 
         if not os.path.exists("data"):
             os.makedirs("data")
