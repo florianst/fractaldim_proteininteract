@@ -36,6 +36,8 @@ def tfd_greedy(graph):
 
     l_boxes, n_boxes = greedy.number_of_boxes_v2(graph, paths)
 
+    #diameter = greedy.graph_diameter(paths)
+
     return np.polyfit(np.log(l_boxes), np.log(n_boxes), 1), l_boxes, np.array(n_boxes)
 
 def tfd_fuzzy(graph):
@@ -82,7 +84,7 @@ if __name__ == "__main__":
         plt.loglog(np.exp(x), np.exp(x * p[0] + p[1]), label="Slope: {:.3f}".format(p[0]))
         plt.legend()
 
-        N = 30
+        N = 40
         G = graphs.build_lattice_graph(N, pbc=pbc)
         if fuzzy:
             p, lb, Nb = tfd_fuzzy(G)

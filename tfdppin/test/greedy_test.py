@@ -111,8 +111,47 @@ def test_color_matrix_path_4():
 
 
 def test_color_matrix_lattice_2():
-    pass
 
+    G = graphs.build_lattice_graph(2)
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    lb = 1
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 1
+    assert c[2][lb - 1] == 2
+    assert c[3][lb - 1] == 3
+
+    lb = 2
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 1
+    assert c[3][lb - 1] == 1
+
+def test_color_matrix_lattice_3():
+
+    G = graphs.build_lattice_graph(3)
+
+    paths = nx.shortest_path(G)
+
+    c = greedy.color_matrix(G, paths)
+
+    lb = 1
+    for i in range(9):
+        assert c[i][lb - 1] == i
+
+    lb = 4
+    assert c[0][lb - 1] == 0
+    assert c[1][lb - 1] == 0
+    assert c[2][lb - 1] == 0
+    assert c[3][lb - 1] == 0
+    assert c[4][lb - 1] == 0
+    assert c[5][lb - 1] == 0
+    assert c[6][lb - 1] == 1
+    assert c[7][lb - 1] == 0
+    assert c[8][lb - 1] == 1
 
 
 def test_color_matrix_song2007():
@@ -179,11 +218,8 @@ def test_number_of_boxes_path():
         else:
             assert greedy.num_boxes_from_graph(G, 2) == (n - 1) / 2 + 1
 
-        # Test lb = n
-        assert greedy.num_boxes_from_graph(G, n) == 1
-
-        # Test lb > n
-        assert greedy.num_boxes_from_graph(G, n + 1) == 1
+        # Test lb = n - 1 (n - 1 is the diameter of the network)
+        assert greedy.num_boxes_from_graph(G, n - 1) == 2
 
 
 def test_number_of_boxes_lattice():
@@ -194,11 +230,8 @@ def test_number_of_boxes_lattice():
         # Test lb = 1
         assert greedy.num_boxes_from_graph(G, 1) == n * n
 
-        # Test lb = n * n
-        assert greedy.num_boxes_from_graph(G, n * n) == 1
-
-        # Test lb > n * n
-        assert greedy.num_boxes_from_graph(G, n * n + 1) == 1
+        # Test lb = 2 * n - 2 (2 * n - 2 is the diameter of the graph)
+        assert greedy.num_boxes_from_graph(G, 2 * n - 2) == 2
 
 def test_number_of_boxes_path_v2():
     pass
