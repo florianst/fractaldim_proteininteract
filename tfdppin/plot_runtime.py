@@ -14,6 +14,7 @@ pal = (sb.color_palette("colorblind")).as_hex() # the first two colours in this 
 fig, axarr = plt.subplots(1, 2, figsize=(12, 4))
 
 ax1 = df_plot.plot(x='N', y='runtime', loglog=True, style='o', ax=axarr[0], legend=None)
+ax1.set_ylim((1e-2, 20))
 ax1.set_ylabel('runtime (s)')
 ax1.grid()
 
@@ -30,6 +31,7 @@ coefficients = np.polyfit(logX, logY, deg=1) # linear fit
 polynomial = np.poly1d(coefficients)
 yfit = lambda x: np.exp(polynomial(np.log(x)))
 ax2.plot(x, yfit(x), label='linear fit', color=pal[1])
+ax2.set_ylim((1e-2, 20))
 ax2.legend()
 
 plt.tight_layout()

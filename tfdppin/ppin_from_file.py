@@ -105,7 +105,7 @@ if __name__ == "__main__":
         plt.figure(figsize=(10, 8))
         max_subgraph = max(nx.connected_component_subgraphs(graph), key=len) # only draw biggest connected subgraph
         pos = nx.spring_layout(max_subgraph)
-        #pos = nx.nx_agraph.graphviz_layout(max_subgraph, prog='sfdp')
+        #pos = nx.nx_agraph.graphviz_layout(max_subgraph, prog='sfdp') # this requires pygraphviz - couldn't make it work...
         node_colors = [('yellow' if 'Ubc' in node else ('b' if (('Ubc', node) in max_subgraph.edges(node) or (node, 'Ubc') in max_subgraph.edges(node)) else 'crimson')) for node in max_subgraph.nodes()]
         nx.draw(max_subgraph, pos, node_size=15, node_color=node_colors)
         #nx.draw_networkx_labels(graph, pos) # show name label for each protein
