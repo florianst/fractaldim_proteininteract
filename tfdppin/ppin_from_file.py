@@ -1,15 +1,11 @@
-import sys
 import time
 from operator import itemgetter
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-import numpy as np
 import argparse as ap
 import seaborn as sb
 
-# TODO:
-# parallelize networkx centrality
 
 def parse(default_fname = None, args = None):
     """
@@ -27,6 +23,7 @@ def parse(default_fname = None, args = None):
 
     return args.i, args.c, args.d, args.info
 
+
 def load_ppin(fname, folder = "../biograd-organism/"):
     """
     Load PPIN data from FNAME in folder FOLDER as CSV file.
@@ -34,16 +31,19 @@ def load_ppin(fname, folder = "../biograd-organism/"):
 
     return pd.read_csv(folder + fname, sep='\t', header=(0), dtype=str)
 
+
 def save_ppin(data, fname, folder = "../biograd-organism/"):
     """
     """
 
     data.to_csv(folder + fname, sep='\t')
 
+
 def flatten(data, name):
     """
     """
     return [val for sublist in data[[name]].values for val in sublist]
+
 
 def print_graphinfo(graph):
     print("number of nodes: in graph " + str(graph.number_of_nodes()) + ", in dataframe " + str(len(dict_symbols)))
@@ -51,6 +51,7 @@ def print_graphinfo(graph):
     print("number of connected components: " + str(nx.number_connected_components(graph)))
     graph_maxconnected = max(nx.connected_component_subgraphs(graph), key=len)
     print("largest connected component: " + str(graph_maxconnected.number_of_nodes()) + " nodes, " + str(graph_maxconnected.number_of_edges()) + " edges")
+
 
 def build_graph_from_ppin_file(fname = "BIOGRID-ORGANISM-Human_Herpesvirus_6B-3.5.165.tab2_duplicate.txt"): # return graph from ppin file, with labels: Interactor IDs
     df_ppin = load_ppin(fname)

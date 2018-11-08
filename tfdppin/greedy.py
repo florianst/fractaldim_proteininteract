@@ -12,9 +12,6 @@ def dual_graph(graph, paths, box_length):
 
     n = graph.number_of_nodes()
 
-    ti = time.time()
-    print("build dual graph...", end=' ')
-
     dual = nx.Graph()
     dual.add_nodes_from(graph.nodes())
     for i in range(n):
@@ -24,20 +21,19 @@ def dual_graph(graph, paths, box_length):
             if path_ij_length >= box_length:
                 dual.add_edge(i, j)
 
-    print("{:.2f}".format(time.time() - ti))
-
     return dual
 
 
 def graph_diameter(paths):
-    return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values())))
+    return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values()))) - 1
 
 
-def number_of_boxes_v2(graph, paths):
+def color_matrix(graph, paths):
     n_nodes = graph.number_of_nodes()
 
     lb_max = graph_diameter(paths)
-    print("lb_max =", lb_max)
+
+    #print(lb_max)
 
     color_mtx = -1 * np.ones((n_nodes, lb_max), dtype=int)
 
@@ -45,19 +41,41 @@ def number_of_boxes_v2(graph, paths):
 
     for i in range(1, n_nodes):
         for lb in range(1, lb_max + 1):
-            used_colors = [0]
+
+            used_colors = []
 
             for j in range(i):
-                l_ij = len(paths[i][j]) - 1
+                try:
+                    l_ij = len(paths[i][j]) - 1
 
-                if l_ij >= lb:
-                    used_colors.append(color_mtx[j][l_ij])
+                    if l_ij >= lb:
+                        used_colors.append(color_mtx[j][lb - 1])  # The indices in Song's paper are wrong!
 
-            new_color = max(used_colors) + 1
+                except KeyError:
+                    pass
 
-            color_mtx[i][lb-1] = new_color
+
+
+            if used_colors:
+                new_color = min(set(range(n_nodes)).difference(used_colors))
+                #for col in range(n_nodes):
+                #    if not (col in used_colors):
+                #        new_color = col
+                #        break
+            else: # No used colors apart from 0
+                new_color = 0
+
+            color_mtx[i][lb - 1] = new_color
+
+    return color_mtx
+
+def number_of_boxes_v2(graph, paths):
+
+    color_mtx = color_matrix(graph, paths)
 
     n_boxes = np.amax(color_mtx, axis=0) + 1
+
+    lb_max = graph_diameter(paths)
 
     return np.array(range(1, lb_max + 1)), n_boxes
 
@@ -92,25 +110,19 @@ def number_of_boxes_fuzzy(graph, paths):
     return np.array(l_boxes), np.array(n_boxes)
 
 
-def number_of_boxes(dual_graph):
-    """
-    Determines the minimum number of boxes to cover the dual graph DG.
-    """
-
-    colors = nx.coloring.greedy_color(dual_graph)
-
-    num_boxes = max(colors.values()) + 1
-
-    return num_boxes
-
-
 def num_boxes_from_graph(graph, lb):
+    """
+    Number of boxes of size LB needed to cover the graph GRAPH.
+
+    This function is inefficient and should not be used to compute the number of boxes for
+    many different values of lb, since the shortest paths are computed every time.
+    """
 
     paths = nx.shortest_path(graph)
 
-    d_graph = dual_graph(graph, paths, lb)
+    l, n = number_of_boxes_v2(graph, paths)
 
-    return number_of_boxes(d_graph)
+    return n[lb - 1]
 
 
 if __name__ == "__main__":
@@ -119,11 +131,15 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     G = graphs.build_song2007_graph()
+
+    assert num_boxes_from_graph(G, 3) == 2
+
     plt.figure(1)
     nx.draw(G, with_labels=True)
     plt.show(block=False)
 
     paths = nx.shortest_path(G)
+
     dG = dual_graph(G, paths, 3)
     plt.figure(2)
     nx.draw(dG, with_labels=True)
