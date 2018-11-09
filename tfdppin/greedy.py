@@ -27,7 +27,7 @@ def dual_graph(graph, paths, box_length):
 def graph_diameter(paths):
     return max(list(map(lambda d: max(list(map(len, d.values()))), paths.values()))) - 1
 
-
+ 
 def color_matrix(graph, paths):
     n_nodes = graph.number_of_nodes()
 
@@ -53,8 +53,6 @@ def color_matrix(graph, paths):
 
                 except KeyError:
                     pass
-
-
 
             if used_colors:
                 new_color = min(set(range(n_nodes)).difference(used_colors))

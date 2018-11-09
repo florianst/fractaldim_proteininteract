@@ -233,8 +233,10 @@ def test_number_of_boxes_lattice():
         # Test lb = 2 * n - 2 (2 * n - 2 is the diameter of the graph)
         assert greedy.num_boxes_from_graph(G, 2 * n - 2) == 2
 
+
 def test_number_of_boxes_path_v2():
     pass
+
 
 def test_number_of_boxes_song2007():
 
