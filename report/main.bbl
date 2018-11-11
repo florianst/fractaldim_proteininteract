@@ -1,0 +1,164 @@
+\begin{thebibliography}{10}
+
+\bibitem{kramer2012}
+Kramer T, Lo~Monte F, Göring S, Okala~Amombo GM, Schmidt B (2012) Small
+  molecule kinase inhibitors for lrrk2 and their application to parkinson's
+  disease models.
+\newblock {\em ACS chemical neuroscience} 3(3):151--160.
+
+\bibitem{liu2011}
+Liu H, et~al. (2011) Prioritizing cancer-related genes with aberrant
+  methylation based on a weighted protein-protein interaction network.
+\newblock {\em BMC systems biology} 5(1):158.
+
+\bibitem{oti2006}
+Oti M, Snel B, Huynen MA, Brunner H (2006) Predicting disease genes using
+  protein-protein interactions.
+\newblock {\em Journal of medical genetics} 43:691--698.
+
+\bibitem{ivanov2013}
+Ivanov AA, Khuri FR, Fu H (2013) Targeting protein-protein interactions as an
+  anticancer strategy.
+\newblock {\em Trends in Pharmacological Sciences} 34:393–400.
+
+\bibitem{laraia2015}
+Laraia L, McKenzie G, Spring DR, Venkitaraman AR, Huggins DJ (2015) Overcoming
+  chemical, biological, and computational challenges in the development of
+  inhibitors targeting protein-protein interactions.
+\newblock {\em Chemistry \& Biology} 22:689–703.
+
+\bibitem{phiz1995}
+Phizicky EM, Fields S (1995) Protein-protein interactions: methods for
+  detection and analysis.
+\newblock {\em Microbiological Reviews} 59:94--123.
+
+\bibitem{srinivasa2014}
+Rao VS, Srinivas K, Sujini G, Kumar GNS (2014) Protein-protein interaction
+  detection: Methods and analysis.
+\newblock {\em International Journal of Proteomics} 2014:147648.
+
+\bibitem{fields1989}
+Fields S, Song O (1989) A novel genetic system to detect protein-protein
+  interactions.
+\newblock {\em Nature} 340:245--246.
+
+\bibitem{biogrid2017}
+Chatr{-}aryamontri A, et~al. (2017) The biogrid interaction database: 2017
+  update.
+\newblock {\em Nucleic Acids Research} 45(Database-Issue):D369--D379.
+
+\bibitem{yates2009}
+Yates JR, Ruse CI, Nakorchevsky A (2009) Proteomics by mass spectrometry:
+  Approaches, advances, and applications.
+\newblock {\em Annual Review of Biomedical Engineering} 11:49--79.
+
+\bibitem{pedamallu2014}
+Pedamallu C, Ozdamar L (2014) A review on protein-protein interaction network
+  databases.
+\newblock {\em Springer Proceedings in Mathematics \& Statistics} 73:511--519.
+
+\bibitem{embl_networkanalysis}
+EMBL-EBI (2018) Network analysis in biology
+  (\url{https://www.ebi.ac.uk/training/online/course/network-analysis-protein-interaction-data-introduction/network-analysis-biology-0}).
+
+\bibitem{zhu2005structural}
+Zhu D, Qin ZS (2005) Structural comparison of metabolic networks in selected
+  single cell organisms.
+\newblock {\em BMC bioinformatics} 6(1):8.
+
+\bibitem{bergmann2003similarities}
+Bergmann S, Ihmels J, Barkai N (2003) Similarities and differences in
+  genome-wide expression data of six organisms.
+\newblock {\em PLoS biology} 2(1):e9.
+
+\bibitem{wuchty2006stable}
+Wuchty S, Barab{\'a}si A, Ferdig MT (2006) Stable evolutionary signal in a
+  yeast protein interaction network.
+\newblock {\em BMC evolutionary biology} 6(1):8.
+
+\bibitem{song2004}
+Song C, Havlin S, Makse HA (2005) Self-similarity of complex networks.
+\newblock {\em Nature} 433:392--395.
+
+\bibitem{concas2006}
+Concas G, Locci M, Marchesi M, Pinna S, Turnu I (2006) Fractal dimension in
+  software networks.
+\newblock {\em Europhysics Letters} 76:1221--1227.
+
+\bibitem{song2007}
+Song C, Gallos LK, Havlin S, Makse HA (2007) How to calculate the fractal
+  dimension of a complex network: the box covering algorithm.
+\newblock {\em Journal of Statistical Mechanics: Theory and Experiment}
+  2007(03):P03006.
+
+\bibitem{zhang2014}
+Zhang H, Hu Y, Lan X, Mahadevan S, Deng Y (2014) Fuzzy fractal dimension of
+  complex networks.
+\newblock {\em Applied Soft Computing} 25:514–518.
+
+\bibitem{grolmusz2015}
+Grolmusz V (2015) A note on the pagerank of undirected graphs.
+\newblock {\em Information Processing Letters} 115(6):633 -- 634.
+
+\bibitem{na2013}
+Na CH, et~al. (2012) Synaptic protein ubiquitination in rat brain revealed by
+  antibody-based ubiquitome analysis.
+\newblock {\em Journal of Proteome Research} 11(9):4722--4732.
+\newblock PMID: 22871113.
+
+\bibitem{price2002}
+Marinovic AC, Zheng B, Mitch WE, Price SR (2002) {{U}biquitin ({U}b{C})
+  expression in muscle cells is increased by glucocorticoids through a
+  mechanism involving {S}p1 and {M}{E}{K}1}.
+\newblock {\em Journal of Biological Chemistry} 277(19):16673--16681.
+
+\bibitem{jung2007}
+Gack MU, et~al. (2007) {{T}{R}{I}{M}25 {R}{I}{N}{G}-finger {E}3 ubiquitin
+  ligase is essential for {R}{I}{G}-{I}-mediated antiviral activity}.
+\newblock {\em Nature} 446(7138):916--920.
+
+\bibitem{ginty2011}
+Harrington AW, et~al. (2011) {{R}ecruitment of actin modifiers to {T}rk{A}
+  endosomes governs retrograde {N}{G}{F} signaling and survival}.
+\newblock {\em Cell} 146(3):421--434.
+
+\bibitem{shafiee2018}
+Shafiee G, Asgari Y, Soltani A, Larijani B, Heshmat R (2018) Identification of
+  candidate genes and proteins in aging skeletal muscle (sarcopenia) using gene
+  expression and structural analysis.
+\newblock {\em PeerJ} 6:e5239.
+
+\bibitem{kittel2004}
+Kittel C (2004) {\em Introduction to Solid State Physics}.
+\newblock (John Wiley \& Sons).
+
+\bibitem{anh2011}
+Wang D, Yu Z, Anh V (2011) Self-similarity in weighted ppi networks.
+\newblock {\em International Conference on Bioscience, Biochemistry and
+  Bioinformatics} 5:193--197.
+
+\bibitem{wei2013}
+Wei D, et~al. (2013) Box-covering algorithm for fractal dimension of weighted
+  networks.
+\newblock {\em Scientific Reports} 3:3049.
+
+\bibitem{jin2013}
+Jin Y, Turaev D, Weinmaier T, Rattei T, Makse HA (2013) The evolutionary
+  dynamics of protein-protein interaction networks inferred from the
+  reconstruction of ancient networks.
+\newblock {\em PLOS one} 8:e58134.
+
+\bibitem{Feder1988}
+Feder J (1988) {\em Fractals}.
+\newblock (Springer US).
+
+\bibitem{garey1979}
+Garey M, Johnson D (1979) {\em Computers and Intractability: A Guide to the
+  Theory of NP-Completeness}.
+\newblock (Freeman).
+
+\bibitem{christofides1971}
+Christofides N (1971) An algorithm for the chromatic number of a graph.
+\newblock {\em The Computer Journal} 14:38--39.
+
+\end{thebibliography}
